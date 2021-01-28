@@ -17,13 +17,5 @@ public class InteractableObject : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        interactable = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        interactable = false;
-    }
+    
 }
