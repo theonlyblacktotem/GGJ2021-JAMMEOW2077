@@ -4,27 +4,69 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] float walkSpeed;
-    [SerializeField] float climbSpeed;
-    public bool climbing;
+
+    public float walkSpeed;
+    public float climbSpeed;
+
+    // For Customize Player's Input
+    public KeyCode left;
+    public KeyCode right;
+    public KeyCode up;
+    public KeyCode down;
+    public KeyCode interact;
+
+    [SerializeField] private bool isClimbing = false;
+
+    // Field for accessing object's components
+    private Rigidbody2D playerRB;
     void Start()
     {
-        
+        playerRB = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        
+        if (isClimbing)
+        {
+            Climb();
+        }
+        else
+        {
+            Walk();
+        }
+    }
 
-        if (climbing)
+    private void Walk()
+    {
+        if (Input.GetKey(left))
         {
-            transform.Translate(Vector2.up * y * climbSpeed * Time.deltaTime);
-        } else
+            playerRB.velocity = new Vector2(-walkSpeed, playerRB.velocity.y);
+        } 
+        else if (Input.GetKey(right))
         {
-            transform.Translate(Vector2.right * x * walkSpeed * Time.deltaTime);
+            playerRB.velocity = new Vector2(walkSpeed, playerRB.velocity.y);
+        }
+        else
+        {
+            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+        }
+    }
+
+    private void Climb()
+    {
+        if (Input.GetKey(up))
+        {
+            playerRB.velocity = new Vector2(0, climbSpeed);
+        }
+        else if (Input.GetKey(down))
+        {
+            playerRB.velocity = new Vector2(0, -climbSpeed);
+        }
+        else
+        {
+            playerRB.velocity = new Vector2(0, 0);
         }
     }
 }
