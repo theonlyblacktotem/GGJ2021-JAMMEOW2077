@@ -62,10 +62,10 @@ MonoBehaviour:
     value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 0
-    value: 0
+    value: -88
   saturation:
     overrideState: 0
-    value: 0
+    value: -67
   brightness:
     overrideState: 0
     value: 0
@@ -1329,13 +1329,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.98
+    value: 3.43
   threshold:
     overrideState: 1
-    value: 0
+    value: 0.88
   softKnee:
-    overrideState: 0
-    value: 0.5
+    overrideState: 1
+    value: 0.484
   clamp:
     overrideState: 0
     value: 65472
@@ -1396,7 +1396,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0
+    value: 0.16
   fastMode:
     overrideState: 0
     value: 0
