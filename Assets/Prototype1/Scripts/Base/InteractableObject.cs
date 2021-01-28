@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
     public bool interactable;
-    public GameObject buttonUI;
+    // Show the player what button he need to press in order to interact with this 
+    public GameObject buttonUI; 
     void Start()
     {
         
@@ -15,7 +15,10 @@ public class InteractableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (interactable)
+        {
+          // Do somthing......
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

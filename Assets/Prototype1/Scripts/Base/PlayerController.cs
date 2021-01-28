@@ -27,7 +27,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+        /**
+            Must write some code for checking if player is near a ladder
+            Maybe use Raycast
+        **/
         if (isClimbing)
         {
             Climb();
