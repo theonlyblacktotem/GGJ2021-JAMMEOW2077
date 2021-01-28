@@ -1329,13 +1329,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 21.75
+    value: 12.5
   threshold:
     overrideState: 1
-    value: 2.75
+    value: 1
   softKnee:
     overrideState: 1
-    value: 0.516
+    value: 0.145
   clamp:
     overrideState: 0
     value: 65472
@@ -1358,6 +1358,50 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
+--- !u!114 &-221355459010367938
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    overrideState: 1
+    value: {x: 0.5, y: 0.5}
+  intensity:
+    overrideState: 1
+    value: 0.34
+  smoothness:
+    overrideState: 1
+    value: 0.436
+  roundness:
+    overrideState: 0
+    value: 1
+  rounded:
+    overrideState: 0
+    value: 0
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
+    overrideState: 0
+    value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,6 +1418,7 @@ MonoBehaviour:
   - {fileID: -8791043665624508023}
   - {fileID: -5387015984974644033}
   - {fileID: 6681221203803818374}
+  - {fileID: -221355459010367938}
 --- !u!114 &6681221203803818374
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1396,7 +1441,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.12
+    value: 0.128
   fastMode:
     overrideState: 0
     value: 0
