@@ -41,3 +41,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Sky
+    uniqueID: 3676797127
+    locked: 0
+  - name: Background mid
+    uniqueID: 2588950795
+    locked: 0
+  - name: Background near
+    uniqueID: 389884331
+    locked: 0
+  - name: Backdrop tiles
+    uniqueID: 3387087529
+    locked: 0
+  - name: Props back
+    uniqueID: 2292196785
+    locked: 0
+  - name: Main tiles
+    uniqueID: 2084038021
+    locked: 0
+  - name: Characters
+    uniqueID: 3078110445
+    locked: 0
+  - name: Props front
+    uniqueID: 4253196561
+    locked: 0
+  - name: Foreground
+    uniqueID: 7074621
+    locked: 0
