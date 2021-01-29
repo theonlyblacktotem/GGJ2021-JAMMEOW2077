@@ -8,51 +8,19 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed;
     public float climbSpeed;
     public float jumpForce;
+    public string scenePW;
 
     // For Customize Player's Input
     public KeyCode left;
     public KeyCode right;
     public KeyCode up;
     public KeyCode down;
-    public KeyCode jump;
-    public KeyCode crouch;
-
-    public bool jumpEnable = false;
-    public bool crouchEnable = false;
-    private bool isClimbing = false;
-    private bool isCrouching = false;
 
     // Field for accessing object's components
-    private Rigidbody2D playerRB;
-    private BoxCollider2D p_Collider2D;
-    void Start()
-    {
-        playerRB = GetComponent<Rigidbody2D>();
-        p_Collider2D = GetComponent<BoxCollider2D>();
-    }
+    protected Rigidbody2D playerRB;
+    protected BoxCollider2D p_Collider2D;
 
-
-    void Update()
-    {
-        /**
-            Must write some code for checking if player is near a ladder
-            Maybe use Raycast
-        **/
- 
-        Walk();
-
-        if (jumpEnable)
-        {
-            Jump();
-        }
-
-        if (crouchEnable)
-        {
-            Crouch();
-        }
-    }
-
-    private void Walk()
+    protected void Walk()
     {
         Vector2 currentPos = transform.position;
         if (Input.GetKey(right))
@@ -68,7 +36,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Use When Player is in Climbing state
-    private void Climb()
+    protected void Climb()
     {
         if (Input.GetKey(up))
         {
@@ -84,21 +52,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Crouch()
-    {
-        // do something....
-    }
-
-    private void Jump()
-    {
-        if (Input.GetKeyDown(jump) && IsGround())
-        {
-            playerRB.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-    }
-
     // Ground checking use Collider
-    private bool IsGround()
+    protected bool IsGround()
     {
         Vector2 topLeftPoint = transform.position;
         topLeftPoint.x -= p_Collider2D.bounds.extents.x;
