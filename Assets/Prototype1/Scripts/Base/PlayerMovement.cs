@@ -22,8 +22,13 @@ public class PlayerMovement : MonoBehaviour
     bool climb = false;
     public bool holdCrate = false;
     public GameObject[] AllCrate;
+    void Awake()
+    {
+        
+    }
     void Start()
     {
+        //AllCrate = GameObject.FindGameObjectsWithTag("Crate");
     }
 
     // Update is called once per frame
@@ -43,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
             dragSpeed = 1;
             foreach (GameObject crate in AllCrate)
             {
-                crate.GetComponent<Crate>().DeactiveCrate();
+                Debug.Log(crate.name);
+                crate.GetComponent<Crate>().DeActiveCrate();
                 crate.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
             }
         }
@@ -66,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
     void FixedUpdate(){
-        CharactorController.Move(horizontalMove * Time.fixedDeltaTime  ,crouch ,jump);
+        charactorController.Move(horizontalMove * Time.fixedDeltaTime  ,crouch ,jump);
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x,0.5f,LayerMask.GetMask("Crate"));
         if (hit)
         {
@@ -77,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
                     holdCrate = true;
                     if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
                     {
-                        Debug.Log(hit.transform.name);
+                        //Debug.Log(hit.transform.name);
                         hit.rigidbody.AddForce(new Vector2(transform.localScale.x*20*Time.deltaTime, 0),ForceMode2D.Force);
                         hit.transform.gameObject.GetComponent<Crate>().ActiveCrate();
                     }

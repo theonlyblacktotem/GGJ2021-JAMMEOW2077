@@ -30,7 +30,7 @@ public class Crate : InteractableObject
         {
             if(Ray[i] && Boarder[i] && Ray[i].transform.gameObject != Boarder[i])
             {
-                Boarder[i].GetComponent<Crate>().DeactiveCrate();
+                Boarder[i].GetComponent<Crate>().DeActiveCrate();
                 Boarder[i] = null;
             }
             if (CheckCrate())
@@ -69,7 +69,7 @@ public class Crate : InteractableObject
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<SpriteRenderer>().color = Color.red;
     }
-    public void DeactiveCrate()
+    public void DeActiveCrate()
     {
         isActive = false;
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
