@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public LayerMask whatisGround;
     public float walkSpeed;
     public float climbSpeed;
+    public float jumpForce;
 
     // For Customize Player's Input
     public KeyCode left;
     public KeyCode right;
     public KeyCode up;
     public KeyCode down;
-    public KeyCode interact;
+    public KeyCode jump;
+    public KeyCode crouch;
 
-    [SerializeField] private bool isClimbing = false;
+    public bool jumpEnable = false;
+    public bool crouchEnable = false;
+    private bool isClimbing = false;
+    private bool isCrouching = false;
 
     // Field for accessing object's components
     private Rigidbody2D playerRB;
+    private BoxCollider2D p_Collider2D;
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
+        p_Collider2D = GetComponent<BoxCollider2D>();
     }
 
 
@@ -31,32 +38,36 @@ public class PlayerController : MonoBehaviour
             Must write some code for checking if player is near a ladder
             Maybe use Raycast
         **/
-        if (isClimbing)
+ 
+        Walk();
+
+        if (jumpEnable)
         {
-            Climb();
+            Jump();
         }
-        else
+
+        if (crouchEnable)
         {
-            Walk();
+            Crouch();
         }
     }
 
     private void Walk()
     {
-        if (Input.GetKey(left))
+        Vector2 currentPos = transform.position;
+        if (Input.GetKey(right))
         {
-            playerRB.velocity = new Vector2(-walkSpeed, playerRB.velocity.y);
-        } 
-        else if (Input.GetKey(right))
-        {
-            playerRB.velocity = new Vector2(walkSpeed, playerRB.velocity.y);
+            currentPos.x += walkSpeed * Time.deltaTime;
+            transform.position = currentPos;
         }
-        else
+        else if (Input.GetKey(left))
         {
-            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-        }
+            currentPos.x -= walkSpeed * Time.deltaTime;
+            transform.position = currentPos;
+        }  
     }
 
+    // Use When Player is in Climbing state
     private void Climb()
     {
         if (Input.GetKey(up))
@@ -71,5 +82,31 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.velocity = new Vector2(0, 0);
         }
+    }
+
+    private void Crouch()
+    {
+        // do something....
+    }
+
+    private void Jump()
+    {
+        if (Input.GetKeyDown(jump) && IsGround())
+        {
+            playerRB.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    // Ground checking use Collider
+    private bool IsGround()
+    {
+        Vector2 topLeftPoint = transform.position;
+        topLeftPoint.x -= p_Collider2D.bounds.extents.x;
+        topLeftPoint.y += p_Collider2D.bounds.extents.y;
+        Vector2 bottomRightPoint = transform.position;
+        bottomRightPoint.x += p_Collider2D.bounds.extents.x;
+        bottomRightPoint.y -= p_Collider2D.bounds.extents.y;
+
+        return Physics2D.OverlapArea(topLeftPoint, bottomRightPoint, whatisGround);
     }
 }
