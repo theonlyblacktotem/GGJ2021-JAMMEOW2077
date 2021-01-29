@@ -21,21 +21,31 @@ public class PlayerMovement : MonoBehaviour
     bool crouch = false;
     bool climb = false;
     public bool holdCrate = false;
+    public GameObject[] AllCrate;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        AllCrate = GameObject.FindGameObjectsWithTag("Crate");
         if (holdCrate)
         {
             dragSpeed = 0.4f;
+            foreach (GameObject crate in AllCrate)
+            {
+                crate.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
         }
         else
         {
             dragSpeed = 1;
+            foreach (GameObject crate in AllCrate)
+            {
+                crate.GetComponent<Crate>().DeactiveCrate();
+                crate.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+            }
         }
 
         verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
@@ -56,27 +66,8 @@ public class PlayerMovement : MonoBehaviour
 
     }
     void FixedUpdate(){
-        // Raycast for ladder climbing
-        RaycastHit2D topHit = Physics2D.Raycast(transform.position, Vector2.up, rayUpDistance, whatIsLadder);
-
-        if (topHit.collider != null)
-        {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
-            {
-                gameObject.layer = LayerMask.NameToLayer("Climb");
-                climb = true;
-            }
-        }
-        else
-        {
-            gameObject.layer = LayerMask.NameToLayer("Player");
-            climb = false;
-        }
-
-        charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
-
-        charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
+        CharactorController.Move(horizontalMove * Time.fixedDeltaTime  ,crouch ,jump);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x,0.5f,LayerMask.GetMask("Crate"));
         if (hit)
         {
             if(hit.transform.tag == "Crate")
@@ -84,20 +75,29 @@ public class PlayerMovement : MonoBehaviour
                 if (Input.GetKey(KeyCode.Return))
                 {
                     holdCrate = true;
-                    hit.transform.position = new Vector2(hit.transform.position.x + (transform.position.x + 0.8f * transform.localScale.x - hit.transform.position.x), hit.transform.position.y);
+                    if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
+                    {
+                        Debug.Log(hit.transform.name);
+                        hit.rigidbody.AddForce(new Vector2(transform.localScale.x*20*Time.deltaTime, 0),ForceMode2D.Force);
+                        hit.transform.gameObject.GetComponent<Crate>().ActiveCrate();
+                    }
                 }
                 else
                 {
                     holdCrate = false;
                 }
             }
+            else
+            {
+                holdCrate = false;
+            }
         }
         else
         {
+
             holdCrate = false;
         }
-        Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.green);
-        Debug.DrawRay(new Vector2(transform.position.x + (0.3f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x,Color.red);
+        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * 0.5f,Color.green);
         jump = false;
     }
 }
