@@ -7,7 +7,6 @@ public class Exit : MonoBehaviour
     [Range(0, 2)] public int playerCount;
     [SerializeField] private int condition;
     public string newSceneName;
-    public Entrance.EntryCheck whichWay;
 
     private void Start()
     {
@@ -24,9 +23,6 @@ public class Exit : MonoBehaviour
 
         if (playerCount == condition)
         {
-            //Player1.instance.scenePW = newSceneName;
-            Player2.instance.scenePW = newSceneName;
-            Player2.instance.whichWay = whichWay;
             SceneManager.LoadScene(newSceneName);
         }
     }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    public Entrance.EntryCheck whichWay = Entrance.EntryCheck.Start;
     public LayerMask whatisGround;
     public float walkSpeed;
     public float climbSpeed;
