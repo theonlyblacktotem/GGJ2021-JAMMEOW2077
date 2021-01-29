@@ -1,17 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractableObject : MonoBehaviour
 {
     public bool interactable;
     // Show the player what button he need to press in order to interact with this 
-    public GameObject buttonUI; 
-    void Start()
-    {
-        
-    }
-
+    public GameObject button;
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +22,7 @@ public class InteractableObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             interactable = true;
-            buttonUI.SetActive(true);
+            button.SetActive(true);
         }
     }
 
@@ -35,7 +31,7 @@ public class InteractableObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             interactable = false;
-            buttonUI.SetActive(false);
+            button.SetActive(false);
         }
     }
 }

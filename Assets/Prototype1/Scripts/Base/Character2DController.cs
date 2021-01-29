@@ -19,6 +19,7 @@ public class Character2DController : MonoBehaviour
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+	private float normalGravity;
 
 	[Header("Events")]
 	[Space]
@@ -34,12 +35,14 @@ public class Character2DController : MonoBehaviour
 	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
+		normalGravity = m_Rigidbody2D.gravityScale;
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
 
 		if (OnCrouchEvent == null)
 			OnCrouchEvent = new BoolEvent();
+		
 	}
 
 	private void FixedUpdate()
@@ -133,6 +136,20 @@ public class Character2DController : MonoBehaviour
 		}
 	}
 
+
+	public void Climb(float move, bool climb)
+    {
+		if (climb)
+        {
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, move);
+			m_Rigidbody2D.gravityScale = 0;
+		}
+        else
+        {
+			m_Rigidbody2D.gravityScale = normalGravity;
+        }
+		
+	}
 
 	private void Flip()
 	{

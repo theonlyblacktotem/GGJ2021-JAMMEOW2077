@@ -5,12 +5,21 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Character2DController CharactorController;
+    public Character2DController charactorController;
+    public LayerMask whatIsLadder;
+
     float horizontalMove = 0f;
+    float verticalMove = 0f;
+
+    public float climbSpeed = 20f;
     public float runSpeed = 40f;
     public float dragSpeed = 1;
+    public float rayUpDistance;
+    public float rayFrontDistrance = 0.05f;
+
     bool jump = false;
     bool crouch = false;
+    bool climb = false;
     public bool holdCrate = false;
     void Start()
     {
@@ -28,9 +37,12 @@ public class PlayerMovement : MonoBehaviour
         {
             dragSpeed = 1;
         }
+
+        verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed * dragSpeed;
         if (Input.GetButtonDown("Jump"))
         {
+
             jump = true;
         }
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -40,10 +52,31 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false;
         }
+
+
     }
     void FixedUpdate(){
-        CharactorController.Move(horizontalMove * Time.fixedDeltaTime  ,crouch ,jump);
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x,0.5f,LayerMask.GetMask("Crate"));
+        // Raycast for ladder climbing
+        RaycastHit2D topHit = Physics2D.Raycast(transform.position, Vector2.up, rayUpDistance, whatIsLadder);
+
+        if (topHit.collider != null)
+        {
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+            {
+                gameObject.layer = LayerMask.NameToLayer("Climb");
+                climb = true;
+            }
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            climb = false;
+        }
+
+        charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
+
+        charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
         if (hit)
         {
             if(hit.transform.tag == "Crate")
@@ -63,21 +96,8 @@ public class PlayerMovement : MonoBehaviour
         {
             holdCrate = false;
         }
-        Debug.DrawRay(new Vector2(transform.position.x + (0.3f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x,Color.green);
+        Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.green);
+        Debug.DrawRay(new Vector2(transform.position.x + (0.3f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x,Color.red);
         jump = false;
-    }
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.tag == "Ladder" && Input.GetKey(KeyCode.W))
-        {
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-        }
-    }
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if(col.tag == "Ladder")
-        {
-            GetComponent<Rigidbody2D>().gravityScale = 3;
-        }
     }
 }

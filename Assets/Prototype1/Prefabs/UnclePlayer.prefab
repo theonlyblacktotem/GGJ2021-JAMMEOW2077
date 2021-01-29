@@ -184,7 +184,7 @@ MonoBehaviour:
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 1335
+    m_Bits: 5431
   m_GroundCheck: {fileID: 813726472700624840}
   m_CeilingCheck: {fileID: 813726471026457757}
   m_CrouchDisableCollider: {fileID: 0}
@@ -206,9 +206,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb84de9d3ff389c489760b65a0fb9b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharactorController: {fileID: 813726471746991065}
+  charactorController: {fileID: 813726471746991065}
+  whatIsLadder:
+    serializedVersion: 2
+    m_Bits: 2048
+  climbSpeed: 50
   runSpeed: 40
   dragSpeed: 1
+  rayUpDistance: 2
+  rayFrontDistrance: 0.05
   holdCrate: 0
 --- !u!58 &813726471746991059
 CircleCollider2D:
