@@ -213,8 +213,9 @@ MonoBehaviour:
   climbSpeed: 50
   runSpeed: 40
   dragSpeed: 1
-  rayUpDistance: 2
+  rayUpDistance: 0.85
   rayFrontDistrance: 0.05
+  climb: 0
   holdCrate: 0
 --- !u!58 &813726471746991059
 CircleCollider2D:

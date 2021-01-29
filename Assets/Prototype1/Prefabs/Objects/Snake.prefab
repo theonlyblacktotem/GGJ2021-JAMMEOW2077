@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactable: 0
-  buttonUI: {fileID: 0}
+  button: {fileID: 4211130562464766876}
 --- !u!58 &3139615593750979808
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ Canvas:
   m_GameObject: {fileID: 6641001900337166182}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool jump = false;
     bool crouch = false;
-    bool climb = false;
+    public bool climb = false;
     public bool holdCrate = false;
     void Start()
     {
@@ -61,9 +61,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (topHit.collider != null)
         {
+            GameObject ladder = topHit.collider.gameObject;
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
             {
-                gameObject.layer = LayerMask.NameToLayer("Climb");
+                if (ladder.CompareTag("Ladder"))
+                {
+                    gameObject.layer = LayerMask.NameToLayer("Climb");
+                }
+                
                 climb = true;
             }
         }

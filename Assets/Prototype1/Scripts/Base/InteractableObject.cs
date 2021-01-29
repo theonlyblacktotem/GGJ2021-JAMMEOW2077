@@ -7,22 +7,21 @@ public class InteractableObject : MonoBehaviour
 {
     public bool interactable;
     // Show the player what button he need to press in order to interact with this 
-    public GameObject button;
-    // Update is called once per frame
-    void Update()
-    {
-        if (interactable)
-        {
-          // Do somthing......
-        }
-    }
+    public Image button;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            interactable = true;
-            button.SetActive(true);
+            PlayerMovement p_Movement = collision.gameObject.GetComponent<PlayerMovement>();
+            if (p_Movement.climb || p_Movement.holdCrate)
+            {
+                button.gameObject.SetActive(false);
+            }
+            else
+            {
+                button.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -30,8 +29,7 @@ public class InteractableObject : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            interactable = false;
-            button.SetActive(false);
+            button.gameObject.SetActive(false);
         }
     }
 }

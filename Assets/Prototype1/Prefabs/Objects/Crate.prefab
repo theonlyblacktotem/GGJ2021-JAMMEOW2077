@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactable: 0
-  button: {fileID: 8955082778362030707}
+  button: {fileID: 3835050992720262494}
 --- !u!61 &353590366669083027
 BoxCollider2D:
   m_ObjectHideFlags: 0
