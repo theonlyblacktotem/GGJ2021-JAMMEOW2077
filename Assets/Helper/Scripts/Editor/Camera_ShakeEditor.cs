@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,16 +6,16 @@ using GGJ2021;
 
 namespace GGJ2021Editor
 {
-    [CustomEditor(typeof(Particle_SpawnController))]
-    public class Particle_SpawnEditor : Editor
+    [CustomEditor(typeof(Camera_ShakeController))]
+    public class Camera_ShakeEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            var controller = (Particle_SpawnController)target;
+            var controller = (Camera_ShakeController)target;
 
-            ShowSpawnByTypeEvent(controller, serializedObject);
+            ShowShakeConditionByType(controller, serializedObject);
 
             if (GUI.changed)
             {
@@ -23,34 +23,34 @@ namespace GGJ2021Editor
             }
         }
 
-        void ShowSpawnByTypeEvent(Particle_SpawnController controller, SerializedObject serializedObject)
+        void ShowShakeConditionByType(Camera_ShakeController controller, SerializedObject serializedObject)
         {
-            SpawnByType spawnByType = controller.spawnByType;
+            SpawnByType conditionType = controller.conditionType;
 
             float labelWidth = EditorGUIUtility.labelWidth - 0.79f;
 
-            switch (spawnByType)
+            switch (conditionType)
             {
                 case SpawnByType.Input:
-                    SpawnTypeInput(controller, serializedObject);
+                    ShakeByInput(controller, serializedObject);
                     break;
 
                 case SpawnByType.Trigger:
-                    SpawnTypeTrigger(controller, serializedObject);
+                    ShakeByTrigger(controller, serializedObject);
                     break;
 
                 case SpawnByType.Collision:
-                    SpawnTypeCollision(controller, serializedObject);
+                    ShakeByCollision(controller, serializedObject);
                     break;
 
                 case SpawnByType.Other:
-                    SpawnTypeOther(controller, serializedObject);
+                    ShakeByOther(controller, serializedObject);
                     break;
             }
 
         }
 
-        void SpawnTypeInput(Particle_SpawnController controller, SerializedObject serializedObject)
+        void ShakeByInput(Camera_ShakeController controller, SerializedObject serializedObject)
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Input", GUILayout.Width(EditorGUIUtility.labelWidth));
@@ -58,7 +58,7 @@ namespace GGJ2021Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        void SpawnTypeTrigger(Particle_SpawnController controller, SerializedObject serializedObject)
+        void ShakeByTrigger(Camera_ShakeController controller, SerializedObject serializedObject)
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Trigger", GUILayout.Width(EditorGUIUtility.labelWidth));
@@ -66,7 +66,7 @@ namespace GGJ2021Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        void SpawnTypeCollision(Particle_SpawnController controller, SerializedObject serializedObject)
+        void ShakeByCollision(Camera_ShakeController controller, SerializedObject serializedObject)
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Collision", GUILayout.Width(EditorGUIUtility.labelWidth));
@@ -74,9 +74,10 @@ namespace GGJ2021Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        void SpawnTypeOther(Particle_SpawnController controller, SerializedObject serializedObject)
+        void ShakeByOther(Camera_ShakeController controller, SerializedObject serializedObject)
         {
-            controller.otherTrigger = (Particle_SpawnCondition)EditorGUILayout.ObjectField("Other",controller.otherTrigger, typeof(Particle_SpawnCondition),false);
+            controller.otherTrigger = (Camera_ShakeCondition)EditorGUILayout.ObjectField("Other", controller.otherTrigger, typeof(Camera_ShakeCondition), false);
         }
+
     }
 }

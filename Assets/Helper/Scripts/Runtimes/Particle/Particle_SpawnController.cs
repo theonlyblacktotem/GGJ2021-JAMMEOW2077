@@ -25,7 +25,7 @@ namespace GGJ2021
 
         [HideInInspector] public PhysicInteractionType collisionType;
 
-        [HideInInspector] public Particle_SpawnTrigger otherTrigger;
+        [HideInInspector] public Particle_SpawnCondition otherTrigger;
 
         #endregion
 
@@ -162,7 +162,7 @@ namespace GGJ2021
                     break;
 
                 case SpawnByType.Other:
-                    if (otherTrigger != null && otherTrigger.IsTrigger(this))
+                    if (otherTrigger != null && otherTrigger.PassedCondition(this))
                     {
                         SpawnParticle();
                     }
