@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     #region Variable
 
     public Character2DController charactorController;
-    public LayerMask whatIsLadder;
     public GameObject[] AllCrate;
 
     [Header("Number")]
@@ -18,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [Range(0, 2)] public float rayUpDistance;
     [Range(0, 1)] public float rayFrontDistrance = 0.05f;
 
+    [HideInInspector] public ClimbableController climbObject;
+
+
     protected float horizontalMove = 0f;
     protected float verticalMove = 0f;
 
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
     protected bool holdCrate = false;
     protected bool jump = false;
     protected bool crouch = false;
+
 
     #endregion
 
@@ -50,15 +53,24 @@ public class PlayerController : MonoBehaviour
         charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
     }
 
+    protected virtual void CheckCrouchInput(KeyCode keyCrouch)
+    {
+        if (Input.GetKeyDown(keyCrouch))
+        {
+            crouch = true;
+        }
+        else if (Input.GetKeyUp(keyCrouch))
+        {
+            crouch = false;
+        }
+    }
+
     protected virtual void ClimbLadder(KeyCode keyUp, KeyCode keyDown)
     {
-        // Raycast for ladder climbing
-        RaycastHit2D topHit = Physics2D.Raycast(transform.position, Vector2.up, rayUpDistance, whatIsLadder);
-
-        if (topHit.collider != null)
+        if (climbObject != null)
         {
-            GameObject ladder = topHit.collider.gameObject;
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+            //GameObject ladder = topHit.collider.gameObject;
+            if (Input.GetKeyDown(keyUp) || Input.GetKeyDown(keyDown))
             {
                 gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
                 climb = true;

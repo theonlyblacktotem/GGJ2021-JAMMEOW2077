@@ -14,7 +14,7 @@ public class ChildMovement : PlayerController
         MoveInput();
 
         CheckJumpInput();
-        CheckCrouchInput();
+        CheckCrouchInput(KeyCode.LeftControl);
     }
 
     private void FixedUpdate()
@@ -53,18 +53,7 @@ public class ChildMovement : PlayerController
 
     #region Helper
 
-    void CheckCrouchInput()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            crouch = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            crouch = false;
-        }
-    }
-
+    
     public bool getClimbState()
     {
         return climb;
