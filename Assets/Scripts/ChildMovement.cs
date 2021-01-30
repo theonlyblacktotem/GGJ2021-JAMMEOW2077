@@ -56,7 +56,7 @@ public class ChildMovement : MonoBehaviour
             coro = StartCoroutine(SetJumpCoro());
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate)
+        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate))
         {
             StopCoroutine(coro);
         }

@@ -240,10 +240,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7736075728901780055}
   - component: {fileID: 7736075728901780054}
-  - component: {fileID: 7736075728901780052}
   - component: {fileID: 7736075728901780041}
   m_Layer: 11
-  m_Name: Climbing ladder
+  m_Name: Short ladder
   m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,24 +311,9 @@ SpriteRenderer:
   m_Size: {x: 20, y: 30.007326}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7736075728901780052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736075728901780040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffeb3feb83a883f46b9f2471276c1335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whoIsInteractor:
-  - Child
-  button: {fileID: 7413861206560616049}
 --- !u!61 &7736075728901780041
 BoxCollider2D:
   m_ObjectHideFlags: 0
