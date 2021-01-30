@@ -132,12 +132,12 @@ public class ChildMovement : MonoBehaviour
 
     public void SetDealth()
     {
-        Debug.Log("children die");
+        Debug.Log("Kid die");
     }
 
     IEnumerator SetJumpCoro()
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.30f);
         jump = true;
     }
 }
