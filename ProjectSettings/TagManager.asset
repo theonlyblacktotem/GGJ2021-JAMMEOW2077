@@ -64,6 +64,9 @@ TagManager:
   - name: Main tiles
     uniqueID: 2084038021
     locked: 0
+  - name: Water
+    uniqueID: 3117516199
+    locked: 0
   - name: Characters
     uniqueID: 3078110445
     locked: 0
