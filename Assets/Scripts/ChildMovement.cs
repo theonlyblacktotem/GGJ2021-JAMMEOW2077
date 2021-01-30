@@ -65,18 +65,10 @@ public class ChildMovement : PlayerController
         }
     }
 
-    public void SetDealth()
-    {
-        Debug.Log("Kid die");
-    }
     public bool getClimbState()
     {
         return climb;
     }
 
-    IEnumerator SetJumpCoro()
-    {
-        yield return new WaitForSeconds(0.02f);
-        jump = true;
-    }
+    #endregion
 }
