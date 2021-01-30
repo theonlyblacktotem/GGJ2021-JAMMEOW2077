@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class ChildMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Character2DController charactorController;
     public LayerMask whatIsLadder;
+    public GameObject[] AllCrate;
 
     float horizontalMove = 0f;
     float verticalMove = 0f;
@@ -21,17 +21,11 @@ public class PlayerMovement : MonoBehaviour
 
     bool jump = false;
     bool crouch = false;
-    public bool climb = false;
-    public bool holdCrate = false;
+    bool climb = false;
+    bool holdCrate = false;
 
-    public GameObject[] AllCrate;
+    private Coroutine coro;
 
-    void Start()
-    {
-        //AllCrate = GameObject.FindGameObjectsWithTag("Crate");
-    }
-
-    // Update is called once per frame
     void Update()
     {
         AllCrate = GameObject.FindGameObjectsWithTag("Crate");
@@ -56,25 +50,30 @@ public class PlayerMovement : MonoBehaviour
 
         verticalMove = Input.GetAxisRaw(gameObject.tag + " Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw(gameObject.tag + " Horizontal") * runSpeed * dragSpeed;
-        if (Input.GetButtonDown("Jump"))
-        {
 
-            jump = true;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            coro = StartCoroutine(SetJumpCoro());
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate)
+        {
+            StopCoroutine(coro);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             crouch = true;
-        }else if (Input.GetKeyUp(KeyCode.LeftControl))
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             crouch = false;
         }
-
-
     }
-    void FixedUpdate(){
-        charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
 
+    private void FixedUpdate()
+    {
+        charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         // Raycast for ladder climbing
         RaycastHit2D topHit = Physics2D.Raycast(transform.position, Vector2.up, rayUpDistance, whatIsLadder);
 
@@ -92,20 +91,22 @@ public class PlayerMovement : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("Player");
             climb = false;
         }
-
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y ), Vector2.right * transform.localScale.x,0.5f,LayerMask.GetMask("Crate"));
-        if (hit)
+        Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
+
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
+
+        if (hit && !hit.collider.isTrigger)
         {
-            if(hit.transform.tag == "Crate")
+            if (hit.transform.tag == "Crate")
             {
-                if (Input.GetKey(KeyCode.Return))
+                if (Input.GetKey(KeyCode.Space))
                 {
                     holdCrate = true;
                     if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
                     {
                         //Debug.Log(hit.transform.name);
-                        hit.rigidbody.AddForce(new Vector2(transform.localScale.x*20*Time.deltaTime, 0),ForceMode2D.Force);
+                        hit.rigidbody.AddForce(new Vector2(transform.localScale.x * 20 * Time.deltaTime, 0), ForceMode2D.Force);
                         hit.transform.gameObject.GetComponent<Crate>().ActiveCrate();
                     }
                 }
@@ -124,8 +125,20 @@ public class PlayerMovement : MonoBehaviour
 
             holdCrate = false;
         }
-        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * 0.5f,Color.green);
+
+        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * rayFrontDistrance, Color.green);
         jump = false;
     }
 
+    public void SetDealth()
+    {
+        Debug.Log("Kid die");
+    }
+
+    IEnumerator SetJumpCoro()
+    {
+        yield return new WaitForSeconds(0.30f);
+        jump = true;
+    }
 }
+

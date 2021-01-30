@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4785957688737784762}
   - component: {fileID: 4785957688737784763}
   m_Layer: 0
-  m_Name: ExitLevel
+  m_Name: LevelLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,7 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1}
   m_EdgeRadius: 0
@@ -72,4 +72,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCount: 0
   condition: 2
-  newSceneName: Level1
+  waitTime: 0.5
+  transition: {fileID: 0}

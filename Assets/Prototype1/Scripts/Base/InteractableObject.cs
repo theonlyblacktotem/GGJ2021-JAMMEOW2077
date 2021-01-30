@@ -5,33 +5,28 @@ using UnityEngine.UI;
 
 public class InteractableObject : MonoBehaviour
 {
-    public bool interactable;
-    // Show the player what button he need to press in order to interact with this 
-    public GameObject button;
-    // Update is called once per frame
-    void Update()
+    public List<string> whoIsInteractor; 
+    public Image button; // Show the player what button he need to press in order to interact with this
+    public bool IsInteracting; //
+
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (interactable)
+        if (IsInteracable(collision.gameObject.tag))
         {
-          // Do somthing......
+            button.gameObject.SetActive(true);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (IsInteracable(collision.gameObject.tag))
         {
-            interactable = true;
-            button.SetActive(true);
+            button.gameObject.SetActive(false);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected bool IsInteracable(string tag)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            interactable = false;
-            button.SetActive(false);
-        }
+        return whoIsInteractor.Contains(tag);
     }
 }

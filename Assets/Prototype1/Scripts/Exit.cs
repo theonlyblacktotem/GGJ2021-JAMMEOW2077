@@ -6,7 +6,9 @@ public class Exit : MonoBehaviour
 {
     [Range(0, 2)] public int playerCount;
     [SerializeField] private int condition;
-    public string newSceneName;
+    [SerializeField] private float waitTime;
+
+    public Animator transition;
 
     private void Start()
     {
@@ -15,7 +17,6 @@ public class Exit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Change Scene");
         if (collision.gameObject.CompareTag("Player"))
         {
             if (playerCount < 2) playerCount++;
@@ -23,7 +24,7 @@ public class Exit : MonoBehaviour
 
         if (playerCount == condition)
         {
-            SceneManager.LoadScene(newSceneName);
+            StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
         }
     }
 
@@ -33,5 +34,16 @@ public class Exit : MonoBehaviour
         {
             if (playerCount > 0) playerCount--;
         }
+    }
+
+    IEnumerator LoadLevel(int index)
+    {
+        if (transition != null)
+        {
+            transition.SetTrigger("Start");
+        }
+        
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene(index);
     }
 }
