@@ -61,7 +61,12 @@ public class PlayerController : MonoBehaviour
                 horizontalMove = 0;
         }
 
-        charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        // Fixed standing during crouch and has ceiling over head.
+        bool nextCrouch = crouch;
+        if (charactorController.wasCrouching && charactorController.ceiling)
+            nextCrouch = true;
+
+        charactorController.Move(horizontalMove * Time.fixedDeltaTime, nextCrouch, jump);
     }
 
     protected virtual void CheckCrouchInput(KeyCode keyCrouch)

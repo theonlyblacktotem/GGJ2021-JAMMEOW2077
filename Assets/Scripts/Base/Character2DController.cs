@@ -16,6 +16,7 @@ public class Character2DController : MonoBehaviour
     private bool waitHitGround;
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     [SerializeField] private bool m_Grounded;            // Whether or not the player is grounded.
+    private bool m_Ceiling;
     const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody2D;
 
@@ -35,8 +36,10 @@ public class Character2DController : MonoBehaviour
     private bool m_wasCrouching = false;
 
     [HideInInspector] public bool climbing;
+    [HideInInspector] public bool ceiling { get { return m_Ceiling; } }
     [HideInInspector] public bool grounded { get { return m_Grounded; } }
     [HideInInspector] public bool facingRight { get { return m_FacingRight; } }
+    [HideInInspector] public bool wasCrouching { get { return m_wasCrouching; } }
 
     private void Awake()
     {
@@ -94,6 +97,9 @@ public class Character2DController : MonoBehaviour
 
     public void Move(float move, bool crouch, bool jump)
     {
+        // Check ceiling
+        m_Ceiling = Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround);
+
         // If crouching, check to see if the character can stand up
         /*
 			if (!crouch)
