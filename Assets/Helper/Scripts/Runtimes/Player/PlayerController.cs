@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        AllCrate = GameObject.FindGameObjectsWithTag("Crate");
+        AllCrate = GameObject.FindGameObjectsWithTag(TagName.crate);
     }
 
     #endregion
@@ -60,13 +60,13 @@ public class PlayerController : MonoBehaviour
             GameObject ladder = topHit.collider.gameObject;
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
             {
-                gameObject.layer = LayerMask.NameToLayer("Climb");
+                gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
                 climb = true;
             }
         }
         else
         {
-            gameObject.layer = LayerMask.NameToLayer("Player");
+            gameObject.layer = LayerMask.NameToLayer(LayerName.player);
             climb = false;
         }
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
@@ -97,12 +97,12 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HoldCrate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), transform.right, rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
 
         if (hit /*&& !hit.collider.isTrigger*/)
         {
-            Debug.Log("Crate before!");
-            if (hit.transform.tag == "Crate")
+            //Debug.Log("Crate before!");
+            if (hit.transform.CompareTag(TagName.crate))
             {
                 if (Input.GetKey(KeyCode.Space))
                 {

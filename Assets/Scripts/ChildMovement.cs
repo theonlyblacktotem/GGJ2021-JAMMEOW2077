@@ -6,30 +6,23 @@ public class ChildMovement : PlayerController
 {
 
     private Coroutine coro;
+    WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
 
     void Update()
     {
         CheckHoldingCrate();
         MoveInput();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            coro = StartCoroutine(SetJumpCoro());
-        }
-
-        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate))
-        {
-            StopCoroutine(coro);
-        }
-
+        CheckJumpInput();
         CheckCrouchInput();
     }
 
     private void FixedUpdate()
     {
-        Move();
+
         ClimbLadder(KeyCode.W, KeyCode.S);
         HoldCrate();
+        Move();
 
         jump = false;
     }
@@ -39,9 +32,22 @@ public class ChildMovement : PlayerController
         Debug.Log("Kid die");
     }
 
+    void CheckJumpInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            coro = StartCoroutine(SetJumpCoro());
+        }
+
+        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate))
+        {
+            StopCoroutine(coro);
+        }
+    }
+
     IEnumerator SetJumpCoro()
     {
-        yield return new WaitForSeconds(0.30f);
+        yield return delayJumpInput;
         jump = true;
     }
 
