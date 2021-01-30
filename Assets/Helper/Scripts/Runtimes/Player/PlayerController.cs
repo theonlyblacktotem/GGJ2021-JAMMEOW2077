@@ -120,7 +120,10 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HoldCrate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), transform.right, rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
+        if (jump)
+            return;
+
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
 
         if (hit /*&& !hit.collider.isTrigger*/)
         {
