@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     #region Variable
 
     public Character2DController charactorController;
+    public LayerMask whatIsWall;
     public GameObject[] AllCrate;
 
     [Header("Number")]
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     protected bool jump = false;
     protected bool crouch = false;
 
+    protected RaycastHit2D[] raycastHit = new RaycastHit2D[5];
 
     #endregion
 
@@ -50,6 +52,15 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void Move()
     {
+        // Fixed stuck wall in air.
+        if (!charactorController.grounded && IsFacingWall())
+        {
+            bool facingRight = charactorController.facingRight;
+            if (horizontalMove > 0 && facingRight
+                || horizontalMove < 0 && !facingRight)
+                horizontalMove = 0;
+        }
+
         charactorController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
     }
 
@@ -142,13 +153,39 @@ public class PlayerController : MonoBehaviour
             holdCrate = false;
         }
 
-        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * rayFrontDistrance, Color.green);
+        Debug.DrawRay(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection() * rayFrontDistrance, Color.green);
 
     }
 
     public virtual void SetDealth()
     {
 
+    }
+
+    protected bool IsFacingWall()
+    {
+        int hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+        if (hit == 0)
+            hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y - GetRaycastOffsetY()), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
+        return hit > 0;
+    }
+
+    protected float GetRaycastOffsetX()
+    {
+        float result = 0.15f * transform.localScale.x;
+        return result;
+    }
+
+    protected float GetRaycastOffsetY()
+    {
+        float result = 0.25f * transform.localScale.y;
+        return result;
+    }
+
+    protected Vector2 GetFacingDirection()
+    {
+        return charactorController.facingRight ? Vector2.right : Vector2.left;
     }
 
     #endregion

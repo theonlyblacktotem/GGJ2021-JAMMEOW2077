@@ -15,6 +15,8 @@ public class ChildMovement : PlayerController
 
         CheckJumpInput();
         CheckCrouchInput(KeyCode.LeftControl);
+
+        Debug.Log(IsFacingWall());
     }
 
     private void FixedUpdate()

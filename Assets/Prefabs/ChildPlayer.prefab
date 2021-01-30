@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 800
   m_CrouchSpeed: 0.36
+  fallDeadThreshold: 0
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
@@ -161,12 +162,14 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 106507194399849256}
   m_CeilingCheck: {fileID: 106507194089154585}
   m_CrouchDisableCollider: {fileID: 106507194307016313}
+  m_Grounded: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+  climbing: 0
 --- !u!114 &106507194307016314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,15 +183,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charactorController: {fileID: 106507194307016315}
-  whatIsLadder:
+  whatIsWall:
     serializedVersion: 2
-    m_Bits: 34816
+    m_Bits: 16640
   AllCrate: []
   climbSpeed: 60
   runSpeed: 30
   dragSpeed: 1
   rayUpDistance: 0.5
   rayFrontDistrance: 0.2
+  climbObject: {fileID: 0}
 --- !u!61 &106507194307016313
 BoxCollider2D:
   m_ObjectHideFlags: 0
