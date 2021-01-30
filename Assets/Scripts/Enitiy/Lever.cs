@@ -7,7 +7,7 @@ public class Lever : MonoBehaviour
     public bool isPull;
     public Collider2D whoIsPull;
     private Collider2D[] whoIsStanding;
-    public GameObject platfrom;
+    public GameObject[] platforms;
 
     private void Awake()
     {
@@ -72,7 +72,12 @@ public class Lever : MonoBehaviour
                 whoIsPull = null;
             }
         }
-        platfrom.GetComponent<Platform>().MoveUp(isPull);
+
+        foreach(var plat in platforms)
+        {
+            plat.GetComponent<Platform>().MoveUp(isPull);
+        }
+        
     }
 
 }
