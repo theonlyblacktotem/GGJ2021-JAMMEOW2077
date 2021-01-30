@@ -75,12 +75,13 @@ public class UncleMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
 
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, 0.5f, LayerMask.GetMask("Crate"));
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
         if (hit)
         {
+            Debug.Log("Crate before!");
             if (hit.transform.tag == "Crate")
             {
-                if (Input.GetAxisRaw("UncleInteract") == 1.0f)
+                if (Input.GetKey(KeyCode.Return))
                 {
                     holdCrate = true;
                     if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
@@ -105,6 +106,6 @@ public class UncleMovement : MonoBehaviour
 
             holdCrate = false;
         }
-        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * 0.5f, Color.green);
+        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * rayFrontDistrance, Color.green);
     }
 }

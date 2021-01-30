@@ -16,8 +16,10 @@ public class ChildMovement : MonoBehaviour
     public float climbSpeed = 20f;
     public float runSpeed = 40f;
     public float dragSpeed = 1;
+    public const float JUMP_DELAY = 0.25f;
     [Range(0, 2)] public float rayUpDistance;
     [Range(0, 1)] public float rayFrontDistrance = 0.05f;
+    private float waitTime = JUMP_DELAY;
 
     bool jump = false;
     bool crouch = false;
@@ -49,11 +51,23 @@ public class ChildMovement : MonoBehaviour
         verticalMove = Input.GetAxisRaw(gameObject.tag + " Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw(gameObject.tag + " Horizontal") * runSpeed * dragSpeed;
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKey(KeyCode.Space) && !holdCrate)
         {
-
-            jump = true;
+            if (waitTime < 0)
+            {
+                jump = true;
+                waitTime = JUMP_DELAY;
+            } else
+            {
+                waitTime -= Time.deltaTime;
+            }
         }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            waitTime = JUMP_DELAY;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             crouch = true;
@@ -87,12 +101,13 @@ public class ChildMovement : MonoBehaviour
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, 0.5f, LayerMask.GetMask("Crate"));
-        if (hit)
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + 0.15f * transform.localScale.x, transform.position.y), Vector2.right * transform.localScale.x, rayFrontDistrance, LayerMask.GetMask("Crate"));
+
+        if (hit && !hit.collider.isTrigger)
         {
             if (hit.transform.tag == "Crate")
             {
-                if (Input.GetAxisRaw("ChildInteract") == 1.0f)
+                if (Input.GetKey(KeyCode.Space))
                 {
                     holdCrate = true;
                     if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
@@ -117,7 +132,8 @@ public class ChildMovement : MonoBehaviour
 
             holdCrate = false;
         }
-        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * 0.5f, Color.green);
+
+        Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * rayFrontDistrance, Color.green);
         jump = false;
     }
 }
