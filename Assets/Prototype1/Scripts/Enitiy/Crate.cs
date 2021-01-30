@@ -28,6 +28,7 @@ public class Crate : InteractableObject
         Ray[2] = Physics2D.Raycast(transform.position + new Vector3(0, 0.4f, 0), Vector2.up, 0.25f, LayerMask.GetMask("Crate"));
         for (int i = 0; i < 3; i++)
         {
+            // If there is something in Ray[i] and Boarder[i] and they ara not the same thing deactive it
             if(Ray[i] && Boarder[i] && Ray[i].transform.gameObject != Boarder[i])
             {
                 Boarder[i].GetComponent<Crate>().DeActiveCrate();

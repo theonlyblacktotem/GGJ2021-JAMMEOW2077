@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Crate
   - Vine
+  - Ladder
+  - Uncle
+  - Child
   layers:
   - Default
   - TransparentFX
@@ -69,4 +72,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 7074621
+    locked: 0
+  - name: UI
+    uniqueID: 2537520667
     locked: 0
