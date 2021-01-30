@@ -134,6 +134,10 @@ public class ChildMovement : MonoBehaviour
     {
         Debug.Log("Kid die");
     }
+    public bool getClimbState()
+    {
+        return climb;
+    }
 
     IEnumerator SetJumpCoro()
     {

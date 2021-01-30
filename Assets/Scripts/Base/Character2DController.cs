@@ -4,16 +4,18 @@ using UnityEngine.Events;
 public class Character2DController : MonoBehaviour
 {
 	[SerializeField] private float m_JumpForce = 400f;							// Amount of force added when the player jumps.
-	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[SerializeField] private float fallDeadThreshold;
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
-
+	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+	float maxH, minH, curH;
+	private bool waitHitGround;
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-	private bool m_Grounded;            // Whether or not the player is grounded.
+	[SerializeField] private bool m_Grounded;            // Whether or not the player is grounded.
 	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
 	
@@ -47,6 +49,7 @@ public class Character2DController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		curH = transform.position.y;
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
 
@@ -63,8 +66,27 @@ public class Character2DController : MonoBehaviour
 				break;
 			}
 		}
+        if (m_Grounded)
+        {
+			minH = transform.position.y;
+			maxH = transform.position.y;
+            if (waitHitGround)
+            {
+				waitHitGround = false;
+				FallDead();
+            }
+		}
+		else if (!m_Grounded && !GetComponent<ChildMovement>().getClimbState())
+        {
+			if(curH > maxH)	maxH = curH;
+			if(curH < minH)	minH = curH;
+			if ((maxH - minH) > fallDeadThreshold) waitHitGround = true;
+		}
 	}
-
+	public void FallDead()
+    {
+		GetComponent<ChildMovement>().SetDealth();
+    }
 
 	public void Move(float move, bool crouch, bool jump)
 	{
