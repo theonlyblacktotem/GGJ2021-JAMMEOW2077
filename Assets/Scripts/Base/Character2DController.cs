@@ -34,6 +34,8 @@ public class Character2DController : MonoBehaviour
 	public BoolEvent OnCrouchEvent;
 	private bool m_wasCrouching = false;
 
+	[HideInInspector] public bool climbing;
+
 	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -153,7 +155,7 @@ public class Character2DController : MonoBehaviour
 			}
 		}
 		// If the player should jump...
-		if (m_Grounded && jump)
+		if ((m_Grounded || climbing) && jump)
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
@@ -164,6 +166,7 @@ public class Character2DController : MonoBehaviour
 
 	public void Climb(float move, bool climb)
     {
+		climbing = climb;
 		if (climb)
         {
 			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, move);

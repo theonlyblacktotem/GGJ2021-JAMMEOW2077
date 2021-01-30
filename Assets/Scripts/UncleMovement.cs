@@ -13,9 +13,9 @@ public class UncleMovement : PlayerController
 
     void FixedUpdate()
     {
-        Move();
-        ClimbLadder(KeyCode.UpArrow, KeyCode.DownArrow);
         HoldCrate();
+        Move();
+        ClimbLadder(KeyCode.UpArrow, KeyCode.DownArrow);        
     }
 
     public override void SetDealth()

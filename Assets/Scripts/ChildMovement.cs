@@ -19,10 +19,11 @@ public class ChildMovement : PlayerController
 
     private void FixedUpdate()
     {
-
-        ClimbLadder(KeyCode.W, KeyCode.S);
         HoldCrate();
         Move();
+        ClimbLadder(KeyCode.W, KeyCode.S);
+
+
 
         jump = false;
     }
@@ -39,7 +40,7 @@ public class ChildMovement : PlayerController
             coro = StartCoroutine(SetJumpCoro());
         }
 
-        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate))
+        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || holdCrate))
         {
             StopCoroutine(coro);
         }
@@ -53,7 +54,7 @@ public class ChildMovement : PlayerController
 
     #region Helper
 
-    
+
     public bool getClimbState()
     {
         return climb;

@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void ClimbLadder(KeyCode keyUp, KeyCode keyDown)
     {
-        if (climbObject != null)
+        if (climbObject != null && !jump)
         {
             //GameObject ladder = topHit.collider.gameObject;
             if (Input.GetKeyDown(keyUp) || Input.GetKeyDown(keyDown))
