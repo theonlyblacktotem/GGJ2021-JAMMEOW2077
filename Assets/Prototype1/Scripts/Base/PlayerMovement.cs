@@ -21,9 +21,11 @@ public class PlayerMovement : MonoBehaviour
     bool crouch = false;
     public bool climb = false;
     public bool holdCrate = false;
+
+    private Rigidbody2D playerRb;
     void Start()
     {
-        
+        playerRb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -64,11 +66,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject ladder = topHit.collider.gameObject;
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
             {
-                if (ladder.CompareTag("Ladder"))
-                {
-                    gameObject.layer = LayerMask.NameToLayer("Climb");
-                }
-                
+                gameObject.layer = LayerMask.NameToLayer("Climb");
                 climb = true;
             }
         }
@@ -104,5 +102,13 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.green);
         Debug.DrawRay(new Vector2(transform.position.x + (0.3f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x,Color.red);
         jump = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Vine"))
+        {
+            climb = true;
+        }
     }
 }
