@@ -38,7 +38,11 @@ public class Exit : MonoBehaviour
 
     IEnumerator LoadLevel(int index)
     {
-        transition.SetTrigger("Start");
+        if (transition != null)
+        {
+            transition.SetTrigger("Start");
+        }
+        
         yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene(index);
     }

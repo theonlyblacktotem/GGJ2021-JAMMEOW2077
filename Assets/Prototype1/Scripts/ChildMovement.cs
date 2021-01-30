@@ -16,15 +16,15 @@ public class ChildMovement : MonoBehaviour
     public float climbSpeed = 20f;
     public float runSpeed = 40f;
     public float dragSpeed = 1;
-    public const float JUMP_DELAY = 0.25f;
     [Range(0, 2)] public float rayUpDistance;
     [Range(0, 1)] public float rayFrontDistrance = 0.05f;
-    private float waitTime = JUMP_DELAY;
 
     bool jump = false;
     bool crouch = false;
     bool climb = false;
-    public bool holdCrate = false;
+    bool holdCrate = false;
+
+    private Coroutine coro;
 
     void Update()
     {
@@ -51,21 +51,14 @@ public class ChildMovement : MonoBehaviour
         verticalMove = Input.GetAxisRaw(gameObject.tag + " Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw(gameObject.tag + " Horizontal") * runSpeed * dragSpeed;
 
-        if (Input.GetKey(KeyCode.Space) && !holdCrate)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (waitTime < 0)
-            {
-                jump = true;
-                waitTime = JUMP_DELAY;
-            } else
-            {
-                waitTime -= Time.deltaTime;
-            }
+            coro = StartCoroutine(SetJumpCoro());
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || climb || holdCrate)
         {
-            waitTime = JUMP_DELAY;
+            StopCoroutine(coro);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -135,6 +128,17 @@ public class ChildMovement : MonoBehaviour
 
         Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * rayFrontDistrance, Color.green);
         jump = false;
+    }
+
+    public void SetDealth()
+    {
+        Debug.Log("children die");
+    }
+
+    IEnumerator SetJumpCoro()
+    {
+        yield return new WaitForSeconds(0.35f);
+        jump = true;
     }
 }
 

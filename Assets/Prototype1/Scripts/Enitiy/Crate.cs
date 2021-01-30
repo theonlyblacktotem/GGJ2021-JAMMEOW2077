@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crate : InteractableObject
+public class Crate : MonoBehaviour
 {
     // Start is called before the first frame update
     private Vector3 offset = new Vector3(0.4f, 0,0);

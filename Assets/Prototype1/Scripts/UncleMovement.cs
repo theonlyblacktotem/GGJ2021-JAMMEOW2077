@@ -108,4 +108,9 @@ public class UncleMovement : MonoBehaviour
         }
         Debug.DrawRay(new Vector2(transform.position.x + (0.15f * transform.localScale.x), transform.position.y), Vector2.right * transform.localScale.x * rayFrontDistrance, Color.green);
     }
+
+    public void SetDealth()
+    {
+        Debug.Log("Uncle die");
+    }
 }
