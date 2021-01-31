@@ -69,4 +69,12 @@ public class Exit : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene(index);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 }
