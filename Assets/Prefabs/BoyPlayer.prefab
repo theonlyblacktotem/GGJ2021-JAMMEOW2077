@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0433f7f09be625e4bbbd494b5ee7253d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 800
+  m_JumpForce: 17.4
   m_CrouchSpeed: 0.36
   fallDeadThreshold: 0
   m_MovementSmoothing: 0.05
@@ -169,6 +169,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16640
   keyAction: 32
+  keyJump: 32
   AllCrate: []
   climbSpeed: 120
   runSpeed: 30
@@ -176,7 +177,10 @@ MonoBehaviour:
   rayUpDistance: 0.5
   rayFrontDistrance: 0.2
   climbObject: {fileID: 0}
+  cantMove: 0
   anim: {fileID: 0}
+  darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
+    type: 3}
   darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
     type: 3}
 --- !u!50 &106507194307016316

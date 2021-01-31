@@ -82,6 +82,8 @@ public class Character2DController : MonoBehaviour
                 break;
             }
         }
+
+        ChildMovement child = GetComponent<ChildMovement>();
         if (m_Grounded)
         {
             minH = transform.position.y;
@@ -92,7 +94,7 @@ public class Character2DController : MonoBehaviour
                 FallDead();
             }
         }
-        else if (!m_Grounded && !GetComponent<ChildMovement>().getClimbState())
+        else if (!m_Grounded && (child != null) && child.getClimbState())
         {
             if (curH > maxH) maxH = curH;
             if (curH < minH) minH = curH;
@@ -176,10 +178,10 @@ public class Character2DController : MonoBehaviour
         // If the player should jump...
         if ((m_Grounded || climbing) && jump)
         {
-            anim.SetTrigger("Jump");
+            if (GetComponent<ChildMovement>() != null) anim.SetTrigger("Jump");
             // Add a vertical force to the player.
             m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce), ForceMode2D.Impulse);
         }
     }
 
