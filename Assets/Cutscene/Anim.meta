@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Cutscene/Anim.meta
 guid: dbe3721c142158d4587b86215b319bea
+=======
+guid: bf280c7578eba02439eb4756dbf190fd
+>>>>>>> d0e7b363a9d8df078a0b8735419084a89f9c7952:Assets/Example/Audio/BGM.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
