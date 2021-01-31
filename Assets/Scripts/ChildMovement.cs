@@ -19,7 +19,7 @@ public class ChildMovement : PlayerController
 
     private void FixedUpdate()
     {
-        HoldCrate();
+        HoldCrate(KeyCode.Space);
         Move();
         ClimbLadder(KeyCode.W, KeyCode.S);
 

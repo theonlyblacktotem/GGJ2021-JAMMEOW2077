@@ -123,19 +123,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void HoldCrate()
+    protected virtual void HoldCrate(KeyCode pusBox)
     {
         if (jump)
             return;
 
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
 
-        if (hit /*&& !hit.collider.isTrigger*/)
+        if (hit)
         {
-            //Debug.Log("Crate before!");
             if (hit.transform.CompareTag(TagName.crate))
             {
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(pusBox))
                 {
                     holdCrate = true;
                     if ((transform.localScale.x < 0 && horizontalMove < 0) || (transform.localScale.x > 0 && horizontalMove > 0))
