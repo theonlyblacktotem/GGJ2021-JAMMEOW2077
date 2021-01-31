@@ -167,6 +167,7 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 16640
+  keyAction: 32
   AllCrate: []
   climbSpeed: 60
   runSpeed: 30

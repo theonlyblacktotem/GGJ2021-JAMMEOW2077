@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class PlayerController : MonoBehaviour
 
     public Character2DController charactorController;
     public LayerMask whatIsWall;
-    public GameObject[] AllCrate;
+    public KeyCode keyAction;
+
+    [HideInInspector] public GameObject[] AllCrate;
 
     [Header("Number")]
     [Space]
@@ -20,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public ClimbableController climbObject;
 
+    protected UnityAction<PlayerController> inputActionDownOverride;
+    protected UnityAction<PlayerController> inputActionHoldOverride;
+    protected UnityAction<PlayerController> inputActionUpOverride;
 
     protected float horizontalMove = 0f;
     protected float verticalMove = 0f;
@@ -30,6 +36,10 @@ public class PlayerController : MonoBehaviour
     protected bool crouch = false;
 
     protected RaycastHit2D[] raycastHit = new RaycastHit2D[5];
+
+    protected Coroutine coro;
+    protected WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
+
 
     #endregion
 
@@ -145,8 +155,8 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hit = RaycastForward(layerCrate);
 
         // Check lower.
-        if(!hit)
-            hit = RaycastForward(layerCrate,new Vector2(0,-GetRaycastOffsetY()));
+        if (!hit)
+            hit = RaycastForward(layerCrate, new Vector2(0, -GetRaycastOffsetY()));
 
 
         if (hit /*&& !hit.collider.isTrigger*/)
@@ -188,6 +198,75 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+
+    public void AddInputActionDownOverride(UnityAction<PlayerController> action)
+    {
+        inputActionDownOverride = action;
+    }
+
+    public void RemoveInputActionDownOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionDownOverride != action)
+            return;
+
+        inputActionDownOverride = null;
+    }
+
+    public void AddInputActionHoldOverride(UnityAction<PlayerController> action)
+    {
+        inputActionHoldOverride = action;
+    }
+
+    public void RemoveInputActionHoldOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionHoldOverride != action)
+            return;
+
+        inputActionHoldOverride = null;
+    }
+
+    public void AddInputActionUpOverride(UnityAction<PlayerController> action)
+    {
+        inputActionUpOverride = action;
+    }
+
+    public void RemoveInputActionUpOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionUpOverride != action)
+            return;
+
+        inputActionUpOverride = null;
+    }
+
+    protected void CheckJumpInput()
+    {
+        if (Input.GetKeyDown(keyAction))
+            inputActionDownOverride?.Invoke(this);
+        else if (Input.GetKey(keyAction))
+            inputActionHoldOverride?.Invoke(this);
+        else if (Input.GetKeyUp(keyAction))
+            inputActionUpOverride?.Invoke(this);
+
+        if (inputActionDownOverride == null)
+        {
+            if (Input.GetKeyDown(keyAction))
+            {
+                coro = StartCoroutine(SetJumpCoro());
+            }
+
+            if (coro != null && (Input.GetKeyUp(keyAction) || holdCrate))
+            {
+                StopCoroutine(coro);
+            }
+        }
+    }
+
+    protected IEnumerator SetJumpCoro()
+    {
+        yield return delayJumpInput;
+        jump = true;
+    }
+
 
     protected bool IsFacingWall()
     {
