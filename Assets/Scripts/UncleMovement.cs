@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UncleMovement : PlayerController
 {
     Animator anim;
+    
 
     private void Awake()
     {
@@ -17,13 +18,17 @@ public class UncleMovement : PlayerController
     {
         CheckHoldingCrate();
         MoveInput();
+
+        CheckJumpInput();
     }
 
     void FixedUpdate()
     {
         HoldCrate(KeyCode.Return);
         Move();
-        ClimbLadder(KeyCode.UpArrow, KeyCode.DownArrow);        
+        ClimbLadder(KeyCode.UpArrow, KeyCode.DownArrow);
+
+        jump = false;
     }
 
     public override void SetDealth()

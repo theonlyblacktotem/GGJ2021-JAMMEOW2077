@@ -7,9 +7,6 @@ public class ChildMovement : PlayerController
 {
     Animator anim;
 
-    private Coroutine coro;
-    WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
-
     private void Awake()
     {
         anim = GetComponent<Animator>();

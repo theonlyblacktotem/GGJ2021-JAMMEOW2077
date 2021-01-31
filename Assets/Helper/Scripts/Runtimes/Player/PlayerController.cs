@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Character2DController charactorController;
     public LayerMask whatIsWall;
     public KeyCode keyAction;
+    public KeyCode keyJump;
 
     [HideInInspector] public GameObject[] AllCrate;
 
@@ -271,21 +272,21 @@ public class PlayerController : MonoBehaviour
 
     protected void CheckJumpInput()
     {
-        if (Input.GetKeyDown(keyAction))
+        if (Input.GetKeyDown(keyJump))
             inputActionDownOverride?.Invoke(this);
-        else if (Input.GetKey(keyAction))
+        else if (Input.GetKey(keyJump))
             inputActionHoldOverride?.Invoke(this);
-        else if (Input.GetKeyUp(keyAction))
+        else if (Input.GetKeyUp(keyJump))
             inputActionUpOverride?.Invoke(this);
 
         if (inputActionDownOverride == null)
         {
-            if (Input.GetKeyDown(keyAction))
+            if (Input.GetKeyDown(keyJump))
             {
                 coro = StartCoroutine(SetJumpCoro());
             }
 
-            if (coro != null && (Input.GetKeyUp(keyAction) || holdCrate))
+            if (coro != null && (Input.GetKeyUp(keyJump) || holdCrate))
             {
                 StopCoroutine(coro);
             }

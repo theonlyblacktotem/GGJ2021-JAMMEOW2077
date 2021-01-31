@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 29260457}
   - component: {fileID: 29260456}
   - component: {fileID: 29260455}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5003,7 +5003,7 @@ GameObject:
   - component: {fileID: 1304852838}
   - component: {fileID: 1304852837}
   - component: {fileID: 1304852836}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5426,7 +5426,7 @@ GameObject:
   - component: {fileID: 1362141004}
   - component: {fileID: 1362141003}
   - component: {fileID: 1362141002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
