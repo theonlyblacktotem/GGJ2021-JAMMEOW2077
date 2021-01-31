@@ -171,6 +171,7 @@ MonoBehaviour:
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+  climbing: 0
 --- !u!114 &4602959428901328657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,17 +185,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charactorController: {fileID: 371829872897010666}
-  whatIsLadder:
+  whatIsWall:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 16640
   AllCrate: []
   climbSpeed: 80
   runSpeed: 40
   dragSpeed: 1
   rayUpDistance: 1
   rayFrontDistrance: 0.3
-  climb: 0
-  holdCrate: 0
+  climbObject: {fileID: 0}
 --- !u!58 &813726471746991059
 CircleCollider2D:
   m_ObjectHideFlags: 0
