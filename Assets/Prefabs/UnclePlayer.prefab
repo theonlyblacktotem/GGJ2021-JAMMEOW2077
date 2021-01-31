@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 813726471746991063}
+  glowSprite: {fileID: 0}
 --- !u!1 &813726471026457754
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +285,7 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 16640
+  keyAction: 13
   AllCrate: []
   climbSpeed: 80
   runSpeed: 40
@@ -291,6 +293,9 @@ MonoBehaviour:
   rayUpDistance: 1
   rayFrontDistrance: 0.2
   climbObject: {fileID: 0}
+  anim: {fileID: 0}
+  darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
+    type: 3}
 --- !u!58 &813726471746991059
 CircleCollider2D:
   m_ObjectHideFlags: 0

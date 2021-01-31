@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChildMovement : PlayerController
 {
+    Animator anim;
 
     private Coroutine coro;
     WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -14,7 +21,7 @@ public class ChildMovement : PlayerController
         MoveInput();
 
         CheckJumpInput();
-        CheckCrouchInput(KeyCode.LeftControl);
+        CheckCrouchInput(KeyCode.S);
     }
 
     private void FixedUpdate()
@@ -30,26 +37,26 @@ public class ChildMovement : PlayerController
 
     public override void SetDealth()
     {
+        anim.SetTrigger("Death");
+        Instantiate(darknessPrefab);
+        StartCoroutine(LosingPhase());
         Debug.Log("Kid die");
     }
-
-    void CheckJumpInput()
+    [SerializeField] GameObject darknessPrefab;
+    IEnumerator LosingPhase()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            coro = StartCoroutine(SetJumpCoro());
-        }
-
-        if (coro != null && (Input.GetKeyUp(KeyCode.Space) || holdCrate))
-        {
-            StopCoroutine(coro);
-        }
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    IEnumerator SetJumpCoro()
+    public void ForceSetBoolTrue(string key)
     {
-        yield return delayJumpInput;
-        jump = true;
+        anim.SetBool(key, true);
+    }
+
+    public void ForceSetTrigger(string key)
+    {
+        anim.SetTrigger(key);
     }
 
     #region Helper

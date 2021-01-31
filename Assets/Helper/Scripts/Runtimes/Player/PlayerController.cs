@@ -1,6 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,7 +10,9 @@ public class PlayerController : MonoBehaviour
 
     public Character2DController charactorController;
     public LayerMask whatIsWall;
-    public GameObject[] AllCrate;
+    public KeyCode keyAction;
+
+    [HideInInspector] public GameObject[] AllCrate;
 
     [Header("Number")]
     [Space]
@@ -19,7 +23,11 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1)] public float rayFrontDistrance = 0.05f;
 
     [HideInInspector] public ClimbableController climbObject;
+    [HideInInspector] public bool cantMove;
 
+    protected UnityAction<PlayerController> inputActionDownOverride;
+    protected UnityAction<PlayerController> inputActionHoldOverride;
+    protected UnityAction<PlayerController> inputActionUpOverride;
 
     protected float horizontalMove = 0f;
     protected float verticalMove = 0f;
@@ -31,6 +39,11 @@ public class PlayerController : MonoBehaviour
 
     protected RaycastHit2D[] raycastHit = new RaycastHit2D[5];
 
+    protected Coroutine coro;
+    protected WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
+
+    public Animator anim;
+
     #endregion
 
     #region Base - Mono
@@ -38,6 +51,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void Awake()
     {
         AllCrate = GameObject.FindGameObjectsWithTag(TagName.crate);
+        anim = GetComponent<Animator>();
     }
 
     #endregion
@@ -46,12 +60,23 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void MoveInput()
     {
+        if (cantMove)
+        {
+            verticalMove = 0;
+            horizontalMove = 0;
+            return;
+        }
+
         verticalMove = Input.GetAxisRaw(gameObject.tag + " Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw(gameObject.tag + " Horizontal") * runSpeed * dragSpeed;
     }
 
     protected virtual void Move()
     {
+        // Lock move X during climbing.
+        if (climb)
+            horizontalMove = 0;
+
         // Fixed stuck wall in air.
         if (!charactorController.grounded && IsFacingWall())
         {
@@ -83,13 +108,21 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void ClimbLadder(KeyCode keyUp, KeyCode keyDown)
     {
-        if (climbObject != null && !jump)
+        bool inputUp = Input.GetKey(keyUp);
+        bool inputDown = Input.GetKey(keyDown);
+
+        if ((climbObject != null && !jump)
+            && !(climbObject.IsLowerThenCenter(transform.position)
+                && charactorController.grounded && inputDown))
         {
             //GameObject ladder = topHit.collider.gameObject;
-            if (Input.GetKeyDown(keyUp) || Input.GetKeyDown(keyDown))
+            if (inputUp || inputDown)
             {
                 gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
                 climb = true;
+
+
+                transform.position = new Vector3(climbObject.transform.position.x, transform.position.y, transform.position.z);
             }
         }
         else
@@ -97,12 +130,14 @@ public class PlayerController : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer(LayerName.player);
             climb = false;
         }
+
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
     }
 
     protected virtual void CheckHoldingCrate()
     {
+        if (anim) anim.SetBool("Pushing", holdCrate);
         if (holdCrate)
         {
             dragSpeed = 0.4f;
@@ -128,7 +163,13 @@ public class PlayerController : MonoBehaviour
         if (jump)
             return;
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
+        LayerMask layerCrate = LayerMask.GetMask(LayerName.crate);
+        RaycastHit2D hit = RaycastForward(layerCrate);
+
+        // Check lower.
+        if (!hit)
+            hit = RaycastForward(layerCrate, new Vector2(0, -GetRaycastOffsetY()));
+
 
         if (hit)
         {
@@ -164,16 +205,110 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void ForceSetBoolTrue(string key)
+    {
+        anim.SetBool(key, true);
+    }
+
+    public void ForceSetTrigger(string key)
+    {
+        anim.SetTrigger(key);
+    }
+
     public virtual void SetDealth()
     {
-
+        anim.SetTrigger("Death");
+        Instantiate(darknessPrefab);
+        StartCoroutine(LosingPhase());
     }
+
+    [SerializeField] GameObject darknessPrefab;
+    IEnumerator LosingPhase()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void AddInputActionDownOverride(UnityAction<PlayerController> action)
+    {
+        inputActionDownOverride = action;
+    }
+
+    public void RemoveInputActionDownOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionDownOverride != action)
+            return;
+
+        inputActionDownOverride = null;
+    }
+
+    public void AddInputActionHoldOverride(UnityAction<PlayerController> action)
+    {
+        inputActionHoldOverride = action;
+    }
+
+    public void RemoveInputActionHoldOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionHoldOverride != action)
+            return;
+
+        inputActionHoldOverride = null;
+    }
+
+    public void AddInputActionUpOverride(UnityAction<PlayerController> action)
+    {
+        inputActionUpOverride = action;
+    }
+
+    public void RemoveInputActionUpOverride(UnityAction<PlayerController> action)
+    {
+        if (inputActionUpOverride != action)
+            return;
+
+        inputActionUpOverride = null;
+    }
+
+    protected void CheckJumpInput()
+    {
+        if (Input.GetKeyDown(keyAction))
+            inputActionDownOverride?.Invoke(this);
+        else if (Input.GetKey(keyAction))
+            inputActionHoldOverride?.Invoke(this);
+        else if (Input.GetKeyUp(keyAction))
+            inputActionUpOverride?.Invoke(this);
+
+        if (inputActionDownOverride == null)
+        {
+            if (Input.GetKeyDown(keyAction))
+            {
+                coro = StartCoroutine(SetJumpCoro());
+            }
+
+            if (coro != null && (Input.GetKeyUp(keyAction) || holdCrate))
+            {
+                StopCoroutine(coro);
+            }
+        }
+    }
+
+    protected IEnumerator SetJumpCoro()
+    {
+        yield return delayJumpInput;
+        jump = true;
+    }
+
 
     protected bool IsFacingWall()
     {
         int hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
+        // Check lower
         if (hit == 0)
             hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y - GetRaycastOffsetY()), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
+        if (hit == 0)
+            hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y + GetRaycastOffsetY()), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
 
         return hit > 0;
     }
@@ -193,6 +328,11 @@ public class PlayerController : MonoBehaviour
     protected Vector2 GetFacingDirection()
     {
         return charactorController.facingRight ? Vector2.right : Vector2.left;
+    }
+
+    protected RaycastHit2D RaycastForward(LayerMask layer, Vector2 originOffset = default)
+    {
+        return Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX() + originOffset.x, transform.position.y + originOffset.y), GetFacingDirection(), rayFrontDistrance, layer);
     }
 
     #endregion
