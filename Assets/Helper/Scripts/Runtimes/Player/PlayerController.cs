@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1)] public float rayFrontDistrance = 0.05f;
 
     [HideInInspector] public ClimbableController climbObject;
+    [HideInInspector] public bool cantMove;
 
     protected UnityAction<PlayerController> inputActionDownOverride;
     protected UnityAction<PlayerController> inputActionHoldOverride;
@@ -56,6 +57,13 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void MoveInput()
     {
+        if (cantMove)
+        {
+            verticalMove = 0;
+            horizontalMove = 0;
+            return;
+        }
+
         verticalMove = Input.GetAxisRaw(gameObject.tag + " Vertical") * climbSpeed;
         horizontalMove = Input.GetAxisRaw(gameObject.tag + " Horizontal") * runSpeed * dragSpeed;
     }
