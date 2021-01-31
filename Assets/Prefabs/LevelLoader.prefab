@@ -5107,6 +5107,8 @@ MonoBehaviour:
   condition: 2
   waitTime: 0.5
   transition: {fileID: 0}
+  holyLight: {fileID: 1930683784428082208, guid: b12439ef00f299645920933de0e45bfb,
+    type: 3}
 --- !u!212 &3303226267928017109
 SpriteRenderer:
   m_ObjectHideFlags: 0
