@@ -4735,6 +4735,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 371829872897010666, guid: 6a877ac54a8482748bd822a1891b4c9d,
+        type: 3}
+      propertyPath: m_AirControl
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 813726471746991056, guid: 6a877ac54a8482748bd822a1891b4c9d,
         type: 3}
       propertyPath: m_Name
@@ -4794,6 +4799,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602959428901328657, guid: 6a877ac54a8482748bd822a1891b4c9d,
+        type: 3}
+      propertyPath: keyRecieve
+      value: 305
       objectReference: {fileID: 0}
     - target: {fileID: 5499410063937616552, guid: 6a877ac54a8482748bd822a1891b4c9d,
         type: 3}
@@ -5503,7 +5513,7 @@ PrefabInstance:
     - target: {fileID: 4221622326586348009, guid: 0b3dc7872d0b41447b56601b9c555f85,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.56
+      value: 1.452
       objectReference: {fileID: 0}
     - target: {fileID: 4221622326586348009, guid: 0b3dc7872d0b41447b56601b9c555f85,
         type: 3}

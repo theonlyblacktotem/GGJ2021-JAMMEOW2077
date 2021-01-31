@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 29260457}
   - component: {fileID: 29260456}
   - component: {fileID: 29260455}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1236,6 +1236,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ladder short
       objectReference: {fileID: 0}
+    - target: {fileID: 7736075728901780040, guid: b577dc64893c47f42a435a11e9659df6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7736075728901780055, guid: b577dc64893c47f42a435a11e9659df6,
         type: 3}
       propertyPath: m_RootOrder
@@ -1474,7 +1479,7 @@ GameObject:
   - component: {fileID: 609055804}
   - component: {fileID: 609055806}
   - component: {fileID: 609055805}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wood_Tileset_27 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2924,7 +2929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 976286143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HalfBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3847,7 +3852,7 @@ GameObject:
   - component: {fileID: 1102469970}
   - component: {fileID: 1102469972}
   - component: {fileID: 1102469971}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wood_Tileset_27 (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5003,7 +5008,7 @@ GameObject:
   - component: {fileID: 1304852838}
   - component: {fileID: 1304852837}
   - component: {fileID: 1304852836}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5426,7 +5431,7 @@ GameObject:
   - component: {fileID: 1362141004}
   - component: {fileID: 1362141003}
   - component: {fileID: 1362141002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dirt_Tileset_36 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5997,7 +6002,7 @@ PrefabInstance:
     - target: {fileID: 8341451383436555172, guid: c2686d8f10435ac43ae9955d6a670475,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8341451383436555173, guid: c2686d8f10435ac43ae9955d6a670475,
         type: 3}

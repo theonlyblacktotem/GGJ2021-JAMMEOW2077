@@ -24,7 +24,7 @@ public class Snake : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Child"))
         {
-            ChildMovement child = collision.gameObject.GetComponent < ChildMovement>();
+            ChildMovement child = collision.gameObject.GetComponent <ChildMovement>();
             coro = StartCoroutine(KillPlayer(child));
         }
     }
