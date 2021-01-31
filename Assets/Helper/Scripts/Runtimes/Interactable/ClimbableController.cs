@@ -14,9 +14,16 @@ public class ClimbableController : MonoBehaviour
 
     #endregion
 
+    BoxCollider2D boxCollider;
+
     #endregion
 
     #region Base - Mono
+
+    void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider2D>();
+    }
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -39,8 +46,30 @@ public class ClimbableController : MonoBehaviour
         var playerController = other.GetComponent<PlayerController>();
         if (playerController)
         {
-            SetPlayerCanClimb(playerController,false);
+            SetPlayerCanClimb(playerController, false);
         }
+    }
+
+    #endregion
+
+    #region Base - Main
+
+    public bool IsLowerThenCenter(Vector2 position)
+    {
+        bool result = false;
+
+        if (boxCollider)
+        {
+            Vector2 centerPosition = transform.position;
+            Vector2 offset = boxCollider.offset;
+            offset.x *= transform.localScale.x;
+            offset.y *= transform.localScale.y;
+            centerPosition += offset;
+            
+            result = position.y < centerPosition.y;
+        }
+
+        return result;
     }
 
     #endregion

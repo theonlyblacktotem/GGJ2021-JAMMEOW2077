@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void Move()
     {
         // Lock move X during climbing.
-        if(climb)
+        if (climb)
             horizontalMove = 0;
 
         // Fixed stuck wall in air.
@@ -87,16 +87,21 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void ClimbLadder(KeyCode keyUp, KeyCode keyDown)
     {
-        if (climbObject != null && !jump)
+        bool inputUp = Input.GetKey(keyUp);
+        bool inputDown = Input.GetKey(keyDown);
+
+        if ((climbObject != null && !jump)
+            && !(climbObject.IsLowerThenCenter(transform.position)
+                && charactorController.grounded && inputDown))
         {
             //GameObject ladder = topHit.collider.gameObject;
-            if (Input.GetKeyDown(keyUp) || Input.GetKeyDown(keyDown))
+            if (inputUp || inputDown)
             {
                 gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
                 climb = true;
 
 
-                transform.position = new Vector3(climbObject.transform.position.x,transform.position.y,transform.position.z);
+                transform.position = new Vector3(climbObject.transform.position.x, transform.position.y, transform.position.z);
             }
         }
         else
@@ -136,7 +141,13 @@ public class PlayerController : MonoBehaviour
         if (jump)
             return;
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), rayFrontDistrance, LayerMask.GetMask(LayerName.crate));
+        LayerMask layerCrate = LayerMask.GetMask(LayerName.crate);
+        RaycastHit2D hit = RaycastForward(layerCrate);
+
+        // Check lower.
+        if(!hit)
+            hit = RaycastForward(layerCrate,new Vector2(0,-GetRaycastOffsetY()));
+
 
         if (hit /*&& !hit.collider.isTrigger*/)
         {
@@ -181,8 +192,14 @@ public class PlayerController : MonoBehaviour
     protected bool IsFacingWall()
     {
         int hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
+        // Check lower
         if (hit == 0)
             hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y - GetRaycastOffsetY()), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
+        if (hit == 0)
+            hit = Physics2D.RaycastNonAlloc(new Vector2(transform.position.x + GetRaycastOffsetX(), transform.position.y + GetRaycastOffsetY()), GetFacingDirection(), raycastHit, rayFrontDistrance, whatIsWall);
+
 
         return hit > 0;
     }
@@ -202,6 +219,11 @@ public class PlayerController : MonoBehaviour
     protected Vector2 GetFacingDirection()
     {
         return charactorController.facingRight ? Vector2.right : Vector2.left;
+    }
+
+    protected RaycastHit2D RaycastForward(LayerMask layer, Vector2 originOffset = default)
+    {
+        return Physics2D.Raycast(new Vector2(transform.position.x + GetRaycastOffsetX() + originOffset.x, transform.position.y + originOffset.y), GetFacingDirection(), rayFrontDistrance, layer);
     }
 
     #endregion
