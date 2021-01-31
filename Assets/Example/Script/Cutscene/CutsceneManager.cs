@@ -48,23 +48,23 @@ public class CutsceneManager : MonoBehaviour
         currentSceneIndex++;
         if (currentSceneIndex >= cutsceneDialogues.Length)
         {
-            SceneManager.LoadScene(sceneToLoad);
+            StartCoroutine(GoToNextScene());
         }
         else
         {
             animMain.SetTrigger("Next");
-            currentCouroutine = StartCoroutine(PlayScene(currentSceneIndex, cutsceneDialogues[0].sceneDuration, isSkip));
+            currentCouroutine = StartCoroutine(PlayScene(currentSceneIndex, cutsceneDialogues[currentSceneIndex].sceneDuration, isSkip));
         }
     }
 
     IEnumerator PlayScene(int index, float duration, bool isSkip = false)
     {
-        if (isSkip && !cutsceneDialogues[index-1].noFadeIn)
+        if (isSkip && !cutsceneDialogues[index - 1].noFadeIn)
         {
             animFade.SetTrigger("FadeIn");
             yield return new WaitForSeconds(0.5f);
         }
-        if(!cutsceneDialogues[index].noFadeOut) animFade.SetTrigger("FadeOut");
+        if (!cutsceneDialogues[index].noFadeOut) animFade.SetTrigger("FadeOut");
         if (index > 0)
             cutsceneDialogues[index - 1].sceneObject.SetActive(false);
         cutsceneDialogues[index].sceneObject.SetActive(true);
@@ -79,6 +79,7 @@ public class CutsceneManager : MonoBehaviour
         }
         yield return new WaitForSeconds(duration - 0.5f);
         if (!isSkip && !cutsceneDialogues[index].noFadeIn) animFade.SetTrigger("FadeIn");
+        else if (isSkip && !cutsceneDialogues[index].noFadeIn) animFade.SetTrigger("FadeIn");
         yield return new WaitForSeconds(0.5f);
 
         CheckFinishCutscene();
@@ -93,6 +94,15 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
+    IEnumerator GoToNextScene(bool isSkip = false)
+    {
+        if (isSkip)
+        {
+            animFade.SetTrigger("FadeIn");
+            yield return new WaitForSeconds(0.5f);
+        }
+        SceneManager.LoadScene(sceneToLoad);
+    }
 }
 
 [System.Serializable]
