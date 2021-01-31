@@ -88,11 +88,16 @@ public class PlayerMovement : MonoBehaviour
         if (topHit.collider != null)
         {
             GameObject ladder = topHit.collider.gameObject;
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 gameObject.layer = LayerMask.NameToLayer("Climb");
                 climb = true;
             }
+            //if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            //{
+            //    gameObject.layer = LayerMask.NameToLayer("Climb");
+            //    climb = true;
+            //}
         }
         else
         {

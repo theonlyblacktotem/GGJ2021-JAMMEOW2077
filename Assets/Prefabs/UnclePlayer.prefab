@@ -254,7 +254,7 @@ MonoBehaviour:
   m_CrouchSpeed: 1
   fallDeadThreshold: 0
   m_MovementSmoothing: 0.05
-  m_AirControl: 0
+  m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 20736
@@ -293,7 +293,10 @@ MonoBehaviour:
   rayUpDistance: 1
   rayFrontDistrance: 0.2
   climbObject: {fileID: 0}
+  cantMove: 0
   anim: {fileID: 0}
+  darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
+    type: 3}
   darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
     type: 3}
 --- !u!58 &813726471746991059

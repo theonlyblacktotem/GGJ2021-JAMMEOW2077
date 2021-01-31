@@ -4735,6 +4735,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 371829872897010666, guid: 6a877ac54a8482748bd822a1891b4c9d,
+        type: 3}
+      propertyPath: m_AirControl
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 813726471746991056, guid: 6a877ac54a8482748bd822a1891b4c9d,
         type: 3}
       propertyPath: m_Name

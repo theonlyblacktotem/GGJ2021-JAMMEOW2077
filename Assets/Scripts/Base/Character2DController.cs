@@ -82,21 +82,25 @@ public class Character2DController : MonoBehaviour
                 break;
             }
         }
-        if (m_Grounded)
+
+        if (GetComponent<ChildMovement>())
         {
-            minH = transform.position.y;
-            maxH = transform.position.y;
-            if (waitHitGround)
+            if (m_Grounded)
             {
-                waitHitGround = false;
-                FallDead();
+                minH = transform.position.y;
+                maxH = transform.position.y;
+                if (waitHitGround)
+                {
+                    waitHitGround = false;
+                    FallDead();
+                }
             }
-        }
-        else if (!m_Grounded && !GetComponent<ChildMovement>().getClimbState())
-        {
-            if (curH > maxH) maxH = curH;
-            if (curH < minH) minH = curH;
-            if ((maxH - minH) > fallDeadThreshold) waitHitGround = true;
+            else if (!m_Grounded && !GetComponent<ChildMovement>().getClimbState())
+            {
+                if (curH > maxH) maxH = curH;
+                if (curH < minH) minH = curH;
+                if ((maxH - minH) > fallDeadThreshold) waitHitGround = true;
+            }
         }
     }
     public void FallDead()
@@ -187,7 +191,8 @@ public class Character2DController : MonoBehaviour
     public void Climb(float move, bool climb)
     {
         climbing = climb;
-        anim.SetBool("Climbing", climb);
+        anim.SetBool("Climbing", climbing);
+        //if(GetComponent<UncleMovement>()) Debug.Log("move => " + climb);
         if (climb)
         {
             m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, move);
