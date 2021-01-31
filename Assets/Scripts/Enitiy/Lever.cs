@@ -66,7 +66,7 @@ public class Lever : MonoBehaviour
 
         LockPlayerMove(false);
         pullByPlayer = null;
-
+        playerController.anim.SetTrigger("PullLever");
     }
 
     #endregion
