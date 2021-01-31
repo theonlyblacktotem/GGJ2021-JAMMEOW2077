@@ -52,6 +52,10 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void Move()
     {
+        // Lock move X during climbing.
+        if(climb)
+            horizontalMove = 0;
+
         // Fixed stuck wall in air.
         if (!charactorController.grounded && IsFacingWall())
         {
@@ -90,6 +94,9 @@ public class PlayerController : MonoBehaviour
             {
                 gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
                 climb = true;
+
+
+                transform.position = new Vector3(climbObject.transform.position.x,transform.position.y,transform.position.z);
             }
         }
         else
@@ -97,6 +104,7 @@ public class PlayerController : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer(LayerName.player);
             climb = false;
         }
+
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
     }
