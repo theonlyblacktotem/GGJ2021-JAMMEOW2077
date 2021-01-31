@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
             climb = false;
         }
 
+        Debug.Log($"Climb Power : {verticalMove}");
         charactorController.Climb(verticalMove * Time.fixedDeltaTime, climb);
         Debug.DrawRay(transform.position, Vector2.up * rayUpDistance, Color.red);
     }

@@ -255,7 +255,7 @@ MonoBehaviour:
   m_CrouchSpeed: 1
   fallDeadThreshold: 6
   m_MovementSmoothing: 0.05
-  m_AirControl: 0
+  m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 20736
