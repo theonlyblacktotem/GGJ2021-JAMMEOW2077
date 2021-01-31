@@ -59,9 +59,12 @@ public class Character2DController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        anim.SetBool("Walking",m_Rigidbody2D.velocity.x > 0.1f || m_Rigidbody2D.velocity.x < -0.1f);
-        anim.SetBool("Landing",m_Rigidbody2D.velocity.y <=0.2 && m_Rigidbody2D.velocity.y >= -0.2);
-        anim.SetBool("Falling",m_Rigidbody2D.velocity.y < 0);
+        anim.SetBool("Walking", m_Rigidbody2D.velocity.x > 0.1f || m_Rigidbody2D.velocity.x < -0.1f);
+        if (GetComponent<ChildMovement>() != null)
+        {
+            anim.SetBool("Landing", m_Rigidbody2D.velocity.y <= 0.2 && m_Rigidbody2D.velocity.y >= -0.2);
+            anim.SetBool("Falling", m_Rigidbody2D.velocity.y < 0);
+        }
         curH = transform.position.y;
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -123,6 +126,7 @@ public class Character2DController : MonoBehaviour
         {
 
             // If crouching
+            if (GetComponent<ChildMovement>() != null) anim.SetBool("Crouching", crouch);
             if (crouch)
             {
                 if (!m_wasCrouching)
@@ -183,6 +187,7 @@ public class Character2DController : MonoBehaviour
     public void Climb(float move, bool climb)
     {
         climbing = climb;
+        anim.SetBool("Climbing", climb);
         if (climb)
         {
             m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, move);

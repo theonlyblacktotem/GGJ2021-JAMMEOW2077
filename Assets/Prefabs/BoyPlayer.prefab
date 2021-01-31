@@ -176,6 +176,9 @@ MonoBehaviour:
   rayUpDistance: 0.5
   rayFrontDistrance: 0.2
   climbObject: {fileID: 0}
+  anim: {fileID: 0}
+  darknessPrefab: {fileID: 1930683784428082208, guid: 0a14858cad180c649b28ebb24caf083d,
+    type: 3}
 --- !u!50 &106507194307016316
 Rigidbody2D:
   serializedVersion: 4
