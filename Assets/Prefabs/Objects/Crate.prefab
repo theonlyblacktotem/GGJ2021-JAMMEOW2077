@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3144210372721381788}
   - component: {fileID: 3144210372721381789}
   - component: {fileID: 3144210372721381856}
-  - component: {fileID: 3144210372721381857}
   - component: {fileID: 3407622089777658057}
   m_Layer: 12
   m_Name: Crate
@@ -146,22 +145,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!58 &3144210372721381857
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3144210372721381790}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.01202172, y: -0.2734484}
-  serializedVersion: 2
-  m_Radius: 0.67
 --- !u!114 &3407622089777658057
 MonoBehaviour:
   m_ObjectHideFlags: 0
