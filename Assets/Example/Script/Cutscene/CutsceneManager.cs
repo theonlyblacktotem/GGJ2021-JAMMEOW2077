@@ -48,7 +48,7 @@ public class CutsceneManager : MonoBehaviour
         currentSceneIndex++;
         if (currentSceneIndex >= cutsceneDialogues.Length)
         {
-            StartCoroutine(GoToNextScene());
+            StartCoroutine(GoToNextScene(isSkip));
         }
         else
         {
