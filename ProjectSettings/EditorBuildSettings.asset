@@ -9,13 +9,34 @@ EditorBuildSettings:
     path: Assets/Example/Scenes/Title_Screen.unity
     guid: e58ad52dcf92cd1468c7b9fee4ab6c8b
   - enabled: 1
+    path: Assets/Example/Scenes/Cutscene_OP.unity
+    guid: 4a76874a55c62a24c8ef408d416a1b0a
+  - enabled: 1
+    path: Assets/Example/Scenes/Cutscene_ED.unity
+    guid: cfb2c2f13ba836643bb31ac893c25a9d
+  - enabled: 1
     path: Assets/Example/Scenes/Level1.unity
     guid: 0bdd6384f678d0b46a02bdd748fc8ab1
   - enabled: 1
     path: Assets/Example/Scenes/Level2.unity
     guid: 14f1d42480001f048885533726e39b73
+  - enabled: 1
+    path: Assets/Example/Scenes/Level3.unity
+    guid: 310a63f875a066c4daa164181fa806ab
+  - enabled: 1
+    path: Assets/Example/Scenes/Level4.unity
+    guid: 72260bb87cb020c42bef21d2746e7650
+  - enabled: 1
+    path: Assets/Example/Scenes/Level5.unity
+    guid: c36ce6d63e85f2341ad4e62270f502f4
+  - enabled: 1
+    path: Assets/Example/Scenes/Level6.unity
+    guid: fc14741b53106cd42a9a67dec1ddd59c
+  - enabled: 1
+    path: Assets/Example/Scenes/Level7.unity
+    guid: c941f5503d5332c408967c033c93714a
   - enabled: 0
-    path: Assets/Prototype1/Scene/Level2.unity
+    path: 
     guid: 530ccb8d736f90a4ebd4c54b9f45d4fc
   - enabled: 1
     path: Assets/Example/Scenes/Prototype1.unity
