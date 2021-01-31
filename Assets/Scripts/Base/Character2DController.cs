@@ -41,9 +41,12 @@ public class Character2DController : MonoBehaviour
     [HideInInspector] public bool facingRight { get { return m_FacingRight; } }
     [HideInInspector] public bool wasCrouching { get { return m_wasCrouching; } }
 
+    Animator anim;
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         normalGravity = m_Rigidbody2D.gravityScale;
 
         if (OnLandEvent == null)
@@ -56,6 +59,9 @@ public class Character2DController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        anim.SetBool("Walking",m_Rigidbody2D.velocity.x > 0.1f || m_Rigidbody2D.velocity.x < -0.1f);
+        anim.SetBool("Landing",m_Rigidbody2D.velocity.y <=0.2 && m_Rigidbody2D.velocity.y >= -0.2);
+        anim.SetBool("Falling",m_Rigidbody2D.velocity.y < 0);
         curH = transform.position.y;
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -166,6 +172,7 @@ public class Character2DController : MonoBehaviour
         // If the player should jump...
         if ((m_Grounded || climbing) && jump)
         {
+            anim.SetTrigger("Jump");
             // Add a vertical force to the player.
             m_Grounded = false;
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
