@@ -1,5 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Cutscene.meta
 guid: 9a2716a8e20727d4a90ec25cefa88e49
+||||||| 6f1b826:Assets/Example/Audio/BGM.meta
+guid: 15f78c41eca528742952539b5fa6ec12
+=======
+guid: 4d031cf2b29d608459978ea43e2f337d
+>>>>>>> TestLevel:Assets/Example/Anim/Boy.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
