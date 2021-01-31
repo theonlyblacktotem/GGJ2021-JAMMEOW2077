@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 4602959428901328657}
   - component: {fileID: 813726471746991059}
   - component: {fileID: 813726471746991058}
+  - component: {fileID: -2272165171723159845}
   m_Layer: 9
   m_Name: UnclePlayer
   m_TagString: Uncle
@@ -154,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 0
   m_CrouchSpeed: 0.5
+  fallDeadThreshold: 0
   m_MovementSmoothing: 0.05
   m_AirControl: 0
   m_WhatIsGround:
@@ -162,6 +164,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 813726472700624840}
   m_CeilingCheck: {fileID: 813726471026457757}
   m_CrouchDisableCollider: {fileID: 0}
+  m_Grounded: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -225,7 +228,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.24}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.57, y: 0.93}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -234,6 +237,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.554793, y: 0.54376507}
   m_EdgeRadius: 0
+--- !u!95 &-2272165171723159845
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813726471746991056}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07c08327640a92d44b481c690402b70a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &813726472700624841
 GameObject:
   m_ObjectHideFlags: 0
