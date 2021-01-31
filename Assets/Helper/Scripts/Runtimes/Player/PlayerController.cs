@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class PlayerController : MonoBehaviour
 
     protected RaycastHit2D[] raycastHit = new RaycastHit2D[5];
 
+    public Animator anim;
+
     #endregion
 
     #region Base - Mono
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void Awake()
     {
         AllCrate = GameObject.FindGameObjectsWithTag(TagName.crate);
+        anim = GetComponent<Animator>();
     }
 
     #endregion
@@ -103,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void CheckHoldingCrate()
     {
+        if (anim) anim.SetBool("Pushing", holdCrate);
         if (holdCrate)
         {
             dragSpeed = 0.4f;
@@ -165,9 +170,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void ForceSetBoolTrue(string key)
+    {
+        anim.SetBool(key, true);
+    }
+
+    public void ForceSetTrigger(string key)
+    {
+        anim.SetTrigger(key);
+    }
+
     public virtual void SetDealth()
     {
+        anim.SetTrigger("Death");
+        Instantiate(darknessPrefab);
+        StartCoroutine(LosingPhase());
+    }
 
+    [SerializeField] GameObject darknessPrefab;
+    IEnumerator LosingPhase()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     protected bool IsFacingWall()

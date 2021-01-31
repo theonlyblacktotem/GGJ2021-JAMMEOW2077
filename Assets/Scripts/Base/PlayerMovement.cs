@@ -26,6 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject[] AllCrate;
 
+    Animator anim;
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
+
+
     void Start()
     {
         //AllCrate = GameObject.FindGameObjectsWithTag("Crate");
@@ -62,10 +69,10 @@ public class PlayerMovement : MonoBehaviour
             jump = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             crouch = true;
-        }else if (Input.GetKeyUp(KeyCode.LeftControl))
+        }else if (Input.GetKeyUp(KeyCode.S))
         {
             crouch = false;
         }
@@ -128,4 +135,14 @@ public class PlayerMovement : MonoBehaviour
         jump = false;
     }
 
+
+    public void ForceSetBoolTrue(string key)
+    {
+        anim.SetBool(key, true);
+    }
+
+    public void ForceSetTrigger(string key)
+    {
+        anim.SetTrigger(key);
+    }
 }

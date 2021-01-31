@@ -8,6 +8,11 @@ public class Snake : MonoBehaviour
     private Coroutine coro;
     public float waitTime = 1.0f;
 
+    Animator anim;
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,6 +34,9 @@ public class Snake : MonoBehaviour
         // If the uncle press enter, this snake get killed.
         if (collision.gameObject.CompareTag("Uncle") && Input.GetKeyDown(KeyCode.Return))
         {
+            //SendMessageUpwards("ForceSetTrigger", "Attack", SendMessageOptions.DontRequireReceiver);
+            Debug.LogWarning(collision.gameObject, collision.gameObject);
+            collision.gameObject.GetComponent<UncleMovement>().ForceSetTrigger("Attack");
             Debug.Log("Snake is killed");
             StopCoroutine(coro);
             Destroy(this.gameObject);
@@ -46,13 +54,17 @@ public class Snake : MonoBehaviour
 
     IEnumerator KillPlayer(UncleMovement uncle)
     {
+        anim.SetTrigger("Prepare");
         yield return new WaitForSeconds(waitTime);
+        anim.SetTrigger("Attack");
         uncle.SetDealth();
     }
 
     IEnumerator KillPlayer(ChildMovement child)
     {
+        anim.SetTrigger("Prepare");
         yield return new WaitForSeconds(waitTime);
+        anim.SetTrigger("Attack");
         child.SetDealth();
     }
 

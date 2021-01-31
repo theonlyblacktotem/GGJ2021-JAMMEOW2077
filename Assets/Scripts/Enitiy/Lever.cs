@@ -52,7 +52,8 @@ public class Lever : MonoBehaviour
         if (!isPull)
         {
             if (Input.GetKeyDown(KeyCode.Return)) {
-                if (whoIsStanding[0] != null) { 
+                if (whoIsStanding[0] != null) {
+                    SendMessageUpwards("ForceSetTrigger", "PullLeverU", SendMessageOptions.DontRequireReceiver);
                     whoIsPull = whoIsStanding[0];
                     isPull = true;
                 }
@@ -60,6 +61,7 @@ public class Lever : MonoBehaviour
             } else if (Input.GetKeyDown(KeyCode.Space)) {
                 if (whoIsStanding[1] != null)
                 {
+                    SendMessageUpwards("ForceSetTrigger", "PullLeverK", SendMessageOptions.DontRequireReceiver);
                     whoIsPull = whoIsStanding[1];
                     isPull = true;
                 }
