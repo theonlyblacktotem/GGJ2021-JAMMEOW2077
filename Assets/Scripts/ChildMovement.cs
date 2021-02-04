@@ -7,8 +7,9 @@ public class ChildMovement : PlayerController
 {
     Animator anim;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         anim = GetComponent<Animator>();
     }
 
