@@ -38,10 +38,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - PlayerCollision
+  - NotPlayerCollision
+  - Interactable
   m_SortingLayers:
   - name: Default
     uniqueID: 0
