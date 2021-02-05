@@ -49,6 +49,11 @@ namespace NTTMS.Test
             m_hAnim.SetBool("Climbing", bClimb);
         }
 
+        public void SetPush(bool bPush)
+        {
+            m_hAnim.SetBool("Pushing",bPush);
+        }
+
         #endregion
     }
 }

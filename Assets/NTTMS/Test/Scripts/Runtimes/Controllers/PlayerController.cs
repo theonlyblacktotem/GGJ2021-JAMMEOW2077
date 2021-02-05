@@ -42,6 +42,9 @@ namespace NTTMS.Test
 
         public PlayerCharacterType characterType { get { return m_eCharacterType; } }
 
+        public PlayerFlag playerFlag { get { return m_eFlag; } set { m_eFlag = value; } }
+
+        public int playerID { get { return m_nPlayerID; } }
         public bool isGrounded { get { return m_bIsGrounded; } }
 
         public bool isJumping { get { return m_bIsJumping; } }
@@ -57,6 +60,8 @@ namespace NTTMS.Test
 
         protected int m_nPlayerID;
 
+        protected PlayerFlag m_eFlag;
+
         protected bool m_bFacingRight = true;
         protected bool m_bIsGrounded;
         protected bool m_bIsCeiling;
@@ -66,6 +71,8 @@ namespace NTTMS.Test
         protected bool m_bIsJumping;
         protected float m_fJumpDelayCheck;
 
+
+        protected float? m_fActionInputStartTime;
         protected float? m_fJumpInputStartTime;
 
 
@@ -86,6 +93,8 @@ namespace NTTMS.Test
 
         protected IInteractable m_hInteractable;
         protected float? m_fLastFrameGetInteractable;
+
+        protected IInteractable m_hCurrentInteraction;
 
         #endregion
 
@@ -123,6 +132,8 @@ namespace NTTMS.Test
 
             JumpDelayCheckCounting();
             CheckClimbInput();
+
+            UpdateInteraction();
         }
 
         protected virtual void FixedUpdate()
@@ -135,6 +146,8 @@ namespace NTTMS.Test
             CheckFlipCharacter();
             UpdateAnimation();
             ClearLastInteractable();
+
+            FixedUpdateInteraction();
         }
 
         #endregion
@@ -145,8 +158,11 @@ namespace NTTMS.Test
 
         protected virtual void ActionButtonDown()
         {
+
             JumpInputStart();
             //Jump();
+
+            m_fActionInputStartTime = Time.time;
         }
 
         protected virtual void ActionButtonHold()
@@ -157,6 +173,9 @@ namespace NTTMS.Test
         protected virtual void ActionButtonUp()
         {
             JumpInputEnd();
+
+            CheckInteractionStart();
+            m_fActionInputStartTime = null;
         }
 
         #endregion
@@ -229,6 +248,11 @@ namespace NTTMS.Test
             else
                 m_fMoveVertical = 0;
 
+            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMove))
+                m_fMoveHorizontal = 0;
+            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockClimb))
+                m_fMoveVertical = 0;
+
             // Add velocity value to move.
             vMovePosition += m_vCurrentVelocity * fDeltaTime;
 
@@ -271,7 +295,7 @@ namespace NTTMS.Test
             if (IsUncle())
                 return;
 
-            if (!m_bIsGrounded || m_bIsCeiling)
+            if (!m_bIsGrounded || m_bIsCeiling || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockJump))
                 return;
 
             m_vCurrentVelocity.y += m_fJumpForce;
@@ -296,7 +320,8 @@ namespace NTTMS.Test
                 return;
 
             bool bCrouching = m_bIsGrounded && m_vInputAxis.y < 0;
-            if (m_bClimbing || m_fJumpInputStartTime.HasValue)
+            if (m_bClimbing || m_fJumpInputStartTime.HasValue
+                || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockCrouch))
                 bCrouching = false;
 
             if ((m_bCrouching == bCrouching) || (m_bCrouching && m_bIsCeiling))
@@ -387,10 +412,48 @@ namespace NTTMS.Test
         protected void UpdateAnimation()
         {
             bool bWalk = m_vInputAxis.x != 0;
-            if (m_fJumpInputStartTime.HasValue)
+            if (m_fJumpInputStartTime.HasValue
+                || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMove))
                 bWalk = false;
-                
+
             m_hAnimController.SetWalk(bWalk);
+        }
+
+        protected void CheckInteractionStart()
+        {
+            if (m_hInteractable == null)
+                return;
+
+            if (m_fActionInputStartTime.HasValue && Time.time <= m_fActionInputStartTime + 0.2f)
+            {
+                m_hCurrentInteraction = m_hInteractable;
+                m_hCurrentInteraction.StartInteraction(this);
+            }
+        }
+
+        protected void UpdateInteraction()
+        {
+            if (m_hCurrentInteraction == null)
+                return;
+
+            m_hCurrentInteraction.UpdateInteraction(this);
+        }
+
+        protected void FixedUpdateInteraction()
+        {
+            if (m_hCurrentInteraction == null)
+                return;
+
+            m_hCurrentInteraction.FixedUpdateInteraction(this);
+        }
+
+        public void EndInteraction()
+        {
+            if (m_hCurrentInteraction == null)
+                return;
+
+            m_hCurrentInteraction.EndInteraction(this);
+            m_hCurrentInteraction = null;
         }
 
         #endregion
@@ -428,6 +491,9 @@ namespace NTTMS.Test
 
         protected void CheckFlipCharacter()
         {
+            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockFlip))
+                return;
+
             if ((m_vInputAxis.x > 0 && !m_bFacingRight)
                 || m_vInputAxis.x < 0 && m_bFacingRight)
                 FlipCharacter();
