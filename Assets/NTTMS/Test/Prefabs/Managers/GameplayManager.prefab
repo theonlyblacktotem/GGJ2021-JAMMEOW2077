@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c926b7642084004ca54a57dd72e1803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_eObstacleLayer:
-    serializedVersion: 2
-    m_Bits: 16640
+  m_hInteractableChild: {fileID: 21300000, guid: a91831ea3939628458c99c3ed6b6ed5e,
+    type: 3}
+  m_hInteractableUncle: {fileID: 21300000, guid: 6f610dd12820deb40b359657451497b0,
+    type: 3}

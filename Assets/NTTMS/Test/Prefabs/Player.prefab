@@ -581,6 +581,36 @@ MonoBehaviour:
       m_Calls: []
   m_bAlwayShowGizmos: 0
   m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &3568338855014019558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 274661131336462140}
+  m_Layer: 9
+  m_Name: LineTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &274661131336462140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568338855014019558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5649065952004881163}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3654764900688157349
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +736,90 @@ MonoBehaviour:
       m_Calls: []
   m_bAlwayShowGizmos: 0
   m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &4629677754581208971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5649065952004881163}
+  - component: {fileID: 7318557575097996735}
+  m_Layer: 9
+  m_Name: InteractableCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5649065952004881163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629677754581208971}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 274661131336462140}
+  m_Father: {fileID: 6169543473198147324}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7318557575097996735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629677754581208971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3765f14f46ea6f4b8dbdd321395b53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hOriginPosition: {fileID: 0}
+  m_hDestinationPosition: {fileID: 274661131336462140}
+  m_eTargetLayer:
+    serializedVersion: 2
+    m_Bits: 3221225472
+  m_arrTargetTag:
+  - Interactable
+  m_arrIgnoreTarget: []
+  m_bCheckUpdate: 1
+  m_eUpdateType: 1
+  m_arrCondition: []
+  m_hHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_hNotHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_hNotTargetTagHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_hHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: GetInteractableObject
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_hNotTargetTagHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls: []
+  m_bAlwayShowGizmos: 0
+  m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &4853290315937216410
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +851,7 @@ Transform:
   - {fileID: 642445778154259771}
   - {fileID: 6402675338862631404}
   - {fileID: 4725827145855370168}
+  - {fileID: 5649065952004881163}
   m_Father: {fileID: 8872319288008584870}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NTTMS.Test
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class ClimbObjectController : MonoBehaviour, IInteractable
+    public class ClimbObjectController : MonoBehaviour
     {
         #region Variable
 
@@ -40,31 +40,6 @@ namespace NTTMS.Test
                 }
             }
         }
-
-        #endregion
-
-        #region Interface
-
-        public bool CanInteraction()
-        {
-            return false;
-        }
-
-        public void StartInteraction()
-        {
-
-        }
-
-        public void UpdateInteraction()
-        {
-
-        }
-
-        public void EndInteraction()
-        {
-
-        }
-
 
         #endregion
 

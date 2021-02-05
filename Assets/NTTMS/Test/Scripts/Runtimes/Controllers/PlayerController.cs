@@ -40,6 +40,8 @@ namespace NTTMS.Test
 
         public PlayerAnimatorController animatorController { get { return m_hAnimController; } }
 
+        public PlayerCharacterType characterType { get { return m_eCharacterType; } }
+
         public bool isGrounded { get { return m_bIsGrounded; } }
 
         public bool isJumping { get { return m_bIsJumping; } }
@@ -81,6 +83,9 @@ namespace NTTMS.Test
         protected ClimbObjectController m_hClimbController;
 
         protected bool m_bClimbing;
+
+        protected IInteractable m_hInteractable;
+        protected float? m_fLastFrameGetInteractable;
 
         #endregion
 
@@ -129,6 +134,7 @@ namespace NTTMS.Test
             Move();
             CheckFlipCharacter();
             UpdateAnimation();
+            ClearLastInteractable();
         }
 
         #endregion
@@ -186,6 +192,23 @@ namespace NTTMS.Test
             m_bIsWallBack = bIsWall;
         }
 
+        public void GetInteractableObject(GameObject hGO)
+        {
+            var hInteractable = hGO.GetComponent<IInteractable>();
+            if (hInteractable != null)
+            {
+                if (!hInteractable.CanInteraction(this))
+                    return;
+
+                if (m_hInteractable != null && m_hInteractable != hInteractable)
+                    m_hInteractable.ShowInteractionUI(this, false);
+
+                m_hInteractable = hInteractable;
+                hInteractable.ShowInteractionUI(this, true);
+
+                m_fLastFrameGetInteractable = Time.time;
+            }
+        }
 
         #endregion
 
@@ -193,6 +216,9 @@ namespace NTTMS.Test
 
         protected virtual void Move()
         {
+            if (m_bIsGrounded && !m_bClimbing && m_fJumpInputStartTime.HasValue)
+                return;
+
             float fDeltaTime = Time.deltaTime;
             Vector2 vMovePosition = Vector2.zero;
             float m_fMoveHorizontal = m_vInputAxis.x;
@@ -217,6 +243,9 @@ namespace NTTMS.Test
 
         protected virtual void JumpInputStart()
         {
+            if (!m_bIsGrounded || m_bClimbing || m_bCrouching)
+                return;
+
             m_fJumpInputStartTime = Time.time;
         }
 
@@ -267,7 +296,7 @@ namespace NTTMS.Test
                 return;
 
             bool bCrouching = m_bIsGrounded && m_vInputAxis.y < 0;
-            if (m_bClimbing)
+            if (m_bClimbing || m_fJumpInputStartTime.HasValue)
                 bCrouching = false;
 
             if ((m_bCrouching == bCrouching) || (m_bCrouching && m_bIsCeiling))
@@ -313,9 +342,10 @@ namespace NTTMS.Test
             bool bBelowCenter = climbableController.IsBelowCenter(transform.position);
             float fPlayerBottomPosition = GetBottomPosition().y;
             float fTopPosition = climbableController.GetTopPosition().y;
+            bool bOverTop = fPlayerBottomPosition >= fTopPosition - 0.1f;
 
-            if ((m_vInputAxis.y > 0 && bBelowCenter)
-                || (m_vInputAxis.y < 0 && !bBelowCenter && fPlayerBottomPosition >= fTopPosition - 0.1f))
+            if ((m_vInputAxis.y > 0 && !bOverTop)
+                || (m_vInputAxis.y < 0 && !bBelowCenter && bOverTop))
             {
                 bClimbing = true;
             }
@@ -356,7 +386,11 @@ namespace NTTMS.Test
 
         protected void UpdateAnimation()
         {
-            m_hAnimController.SetWalk(m_vInputAxis.x != 0);
+            bool bWalk = m_vInputAxis.x != 0;
+            if (m_fJumpInputStartTime.HasValue)
+                bWalk = false;
+                
+            m_hAnimController.SetWalk(bWalk);
         }
 
         #endregion
@@ -433,6 +467,19 @@ namespace NTTMS.Test
         protected bool IsUncle()
         {
             return m_eCharacterType == PlayerCharacterType.Uncle;
+        }
+
+        protected void ClearLastInteractable()
+        {
+            if (m_hInteractable == null || !m_fLastFrameGetInteractable.HasValue)
+                return;
+
+            if (Time.time <= m_fLastFrameGetInteractable + 0.04f)
+                return;
+
+            m_fLastFrameGetInteractable = null;
+            m_hInteractable.ShowInteractionUI(this, false);
+            m_hInteractable = null;
         }
 
         #endregion

@@ -9,6 +9,7 @@ TagManager:
   - Ladder
   - Uncle
   - Child
+  - Interactable
   layers:
   - Default
   - TransparentFX
