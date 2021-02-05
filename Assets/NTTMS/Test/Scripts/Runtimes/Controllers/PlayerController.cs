@@ -131,18 +131,18 @@ namespace NTTMS.Test
 
         protected virtual void ActionButtonDown()
         {
-            //JumpInputStart();
-            Jump();
+            JumpInputStart();
+            //Jump();
         }
 
         protected virtual void ActionButtonHold()
         {
-
+            JumpInputUpdate();
         }
 
         protected virtual void ActionButtonUp()
         {
-            //JumpInputEnd();
+            JumpInputEnd();
         }
 
         #endregion
@@ -210,6 +210,18 @@ namespace NTTMS.Test
         protected virtual void JumpInputEnd()
         {
             m_fJumpInputStartTime = null;
+        }
+
+        protected virtual void JumpInputUpdate()
+        {
+            if (!m_fJumpInputStartTime.HasValue)
+                return;
+
+            if (Time.time >= m_fJumpInputStartTime + m_fJumpInputHold)
+            {
+                Jump();
+                JumpInputEnd();
+            }
         }
 
         protected virtual void Jump()

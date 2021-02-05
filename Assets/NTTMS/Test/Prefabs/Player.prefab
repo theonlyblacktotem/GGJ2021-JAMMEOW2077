@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fMoveSpeed: 5.2
   m_fCrouchSpeed: 2.6
+  m_fClimbSpeed: 2.6
   m_fJumpForce: 5.5
   m_fJumpInputHold: 3
   m_hFlipEvent:
