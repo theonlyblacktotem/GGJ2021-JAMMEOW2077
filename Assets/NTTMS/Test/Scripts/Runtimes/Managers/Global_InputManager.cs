@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DSC.Core;
 using DSC.Input;
 using DSC.Event;
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 namespace NTTMS.Test
 {
@@ -19,6 +22,10 @@ namespace NTTMS.Test
 
         [Header("Other")]
         [SerializeField] int m_nMaxPlayerNumber = 1;
+
+        [Header("Keyboard")]
+        [SerializeField] InputActionAsset m_hPlayer1;
+        [SerializeField] InputActionAsset m_hPlayer2;
 
 #pragma warning restore 0649
         #endregion
@@ -65,6 +72,15 @@ namespace NTTMS.Test
             }
 
             InitInput(m_nMaxPlayerNumber, m_fSensitivity, m_fGravity);
+            Init();
+        }
+
+        void OnDestroy()
+        {
+            if (m_hInstance == null)
+                return;
+
+            ClearOnDestroy();
         }
 
         private void Update()
@@ -75,6 +91,75 @@ namespace NTTMS.Test
         private void LateUpdate()
         {
             LateUpdateInput();
+        }
+
+        #endregion
+
+        #region Events
+
+        void OnMovement_Player1(CallbackContext hValue)
+        {
+            SetRawAxis(0, hValue.ReadValue<Vector2>());
+        }
+
+        void OnMovement_Player2(CallbackContext hValue)
+        {
+            SetRawAxis(1, hValue.ReadValue<Vector2>());
+        }
+
+        void OnAction_Player1(CallbackContext hValue)
+        {
+            SetButtonInput(0, (int)InputButtonType.South, hValue.ReadValueAsButton());
+        }
+
+        void OnAction_Player2(CallbackContext hValue)
+        {
+            SetButtonInput(1, (int)InputButtonType.South, hValue.ReadValueAsButton());
+        }
+
+        #endregion
+
+
+        #region Helper
+
+        void Init()
+        {
+            var hAction = m_hPlayer1.FindAction("Axis");
+            hAction.performed += OnMovement_Player1;
+            hAction.canceled += OnMovement_Player1;
+            hAction = m_hPlayer2.FindAction("Axis");
+            hAction.performed += OnMovement_Player2;
+            hAction.canceled += OnMovement_Player2;
+
+            hAction = m_hPlayer1.FindAction("South");
+            hAction.performed += OnAction_Player1;
+            hAction.canceled += OnAction_Player1;
+            hAction = m_hPlayer2.FindAction("South");
+            hAction.performed += OnAction_Player2;
+            hAction.canceled += OnAction_Player2;
+
+            m_hPlayer1.Enable();
+            m_hPlayer2.Enable();
+        }
+
+        void ClearOnDestroy()
+        {
+            var hAction = m_hPlayer1.FindAction("Axis");
+            hAction.performed -= OnMovement_Player1;
+            hAction.canceled -= OnMovement_Player1;
+            hAction = m_hPlayer2.FindAction("Axis");
+            hAction.performed -= OnMovement_Player2;
+            hAction.canceled -= OnMovement_Player2;
+
+            hAction = m_hPlayer1.FindAction("South");
+            hAction.performed -= OnAction_Player1;
+            hAction.canceled -= OnAction_Player1;
+            hAction = m_hPlayer2.FindAction("South");
+            hAction.performed -= OnAction_Player2;
+            hAction.canceled -= OnAction_Player2;
+
+            m_hPlayer1.Disable();
+            m_hPlayer2.Disable();
         }
 
         #endregion

@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "t:script Layer"
+	"last_search.AB59B443" = "t:sprite Uncle"
 }
 providers = {
 	asset = {

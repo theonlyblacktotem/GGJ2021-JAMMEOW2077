@@ -13,6 +13,7 @@ namespace NTTMS.Test
 
         #region Variable - Inspector
 
+        [SerializeField] PlayerCharacterType m_eCharacterType;
         [Min(0)]
         [SerializeField] protected float m_fMoveSpeed = 5.2f;
         [Min(0)]
@@ -51,6 +52,8 @@ namespace NTTMS.Test
 
         protected Rigidbody2D m_hRigid;
         protected CapsuleCollider2D m_hCol;
+
+        protected int m_nPlayerID;
 
         protected bool m_bFacingRight = true;
         protected bool m_bIsGrounded;
@@ -92,21 +95,26 @@ namespace NTTMS.Test
 
             m_vColSizeOrigin = m_hCol.size;
             m_vColOffsetOrigin = m_hCol.offset;
+
+            if (m_eCharacterType == PlayerCharacterType.Uncle)
+            {
+                m_nPlayerID = 1;
+            }
         }
 
         protected virtual void OnEnable()
         {
-            Global_InputManager.AddInputEventListener((int)InputButtonType.South, ActionButtonDown, ActionButtonHold, ActionButtonUp);
+            Global_InputManager.AddInputEventListener(m_nPlayerID, (int)InputButtonType.South, ActionButtonDown, ActionButtonHold, ActionButtonUp);
         }
 
         protected virtual void OnDisable()
         {
-            Global_InputManager.RemoveInputEventListener((int)InputButtonType.South, ActionButtonDown, ActionButtonHold, ActionButtonUp);
+            Global_InputManager.RemoveInputEventListener(m_nPlayerID, (int)InputButtonType.South, ActionButtonDown, ActionButtonHold, ActionButtonUp);
         }
 
         protected virtual void Update()
         {
-            m_vInputAxis = Global_InputManager.GetRawAxis();
+            m_vInputAxis = Global_InputManager.GetRawAxis(m_nPlayerID, 0);
 
             JumpDelayCheckCounting();
             CheckClimbInput();
@@ -150,6 +158,11 @@ namespace NTTMS.Test
         public void SetIsGrounded(bool bIsGrounded)
         {
             m_bIsGrounded = bIsGrounded;
+
+            // Temp
+            if (IsUncle())
+                bIsGrounded = true;
+
             m_hAnimController.SetGrounded(bIsGrounded);
 
             if (bIsGrounded && m_bIsJumping && m_fJumpDelayCheck <= 0)
@@ -226,6 +239,9 @@ namespace NTTMS.Test
 
         protected virtual void Jump()
         {
+            if (IsUncle())
+                return;
+
             if (!m_bIsGrounded || m_bIsCeiling)
                 return;
 
@@ -247,6 +263,9 @@ namespace NTTMS.Test
 
         protected virtual void Crouch()
         {
+            if (IsUncle())
+                return;
+
             bool bCrouching = m_bIsGrounded && m_vInputAxis.y < 0;
             if (m_bClimbing)
                 bCrouching = false;
@@ -409,6 +428,11 @@ namespace NTTMS.Test
             Vector2 vPosition = m_hRigid.position + m_hCol.offset;
             vPosition.y -= m_hCol.size.y * 0.5f;
             return vPosition;
+        }
+
+        protected bool IsUncle()
+        {
+            return m_eCharacterType == PlayerCharacterType.Uncle;
         }
 
         #endregion

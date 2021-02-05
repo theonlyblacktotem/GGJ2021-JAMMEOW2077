@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fSensitivity: 3
   m_fGravity: 3
+  m_nMaxPlayerNumber: 2
