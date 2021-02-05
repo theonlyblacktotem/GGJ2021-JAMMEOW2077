@@ -177,10 +177,104 @@ MonoBehaviour:
   m_fMoveSpeed: 5.2
   m_fCrouchSpeed: 2.6
   m_fJumpForce: 5.5
+  m_fJumpInputHold: 3
   m_hFlipEvent:
     m_PersistentCalls:
       m_Calls: []
   m_hAnimController: {fileID: 3294385132741571660}
+  m_hStandCheckGroup: {fileID: 4853290315937216410}
+  m_hCrouchCheckGroup: {fileID: 3654764900688157349}
+--- !u!1 &585269222692953323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667911931516576754}
+  - component: {fileID: 1836756825411902745}
+  m_Layer: 9
+  m_Name: WallBackCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667911931516576754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585269222692953323}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2225333875908713861}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1836756825411902745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585269222692953323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11dbced0458aa0344bfe2e46e14fb40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hOverlapPosition: {fileID: 0}
+  m_vSize: {x: 1, y: 1}
+  m_eTargetLayer:
+    serializedVersion: 2
+    m_Bits: 805306624
+  m_arrTargetTag: []
+  m_bUseLocalAngle: 1
+  m_arrIgnoreTarget: []
+  m_bCheckUpdate: 1
+  m_eUpdateType: 1
+  m_nCheckArraySize: 3
+  m_arrCondition: []
+  m_hHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsWallBack
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_hNotHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsWallBack
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_nMaxSendData: 1
+  m_hHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls: []
+  m_bAlwayShowGizmos: 0
+  m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1526260174155135784
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6169543473198147324}
+  - {fileID: 2225333875908713861}
   m_Father: {fileID: 7050248982866571590}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -431,6 +526,131 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2753358616000276955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11dbced0458aa0344bfe2e46e14fb40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hOverlapPosition: {fileID: 0}
+  m_vSize: {x: 1, y: 1}
+  m_eTargetLayer:
+    serializedVersion: 2
+    m_Bits: 805306624
+  m_arrTargetTag: []
+  m_bUseLocalAngle: 1
+  m_arrIgnoreTarget: []
+  m_bCheckUpdate: 1
+  m_eUpdateType: 1
+  m_nCheckArraySize: 3
+  m_arrCondition: []
+  m_hHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsWallForward
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_hNotHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsWallForward
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_nMaxSendData: 1
+  m_hHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls: []
+  m_bAlwayShowGizmos: 0
+  m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &3654764900688157349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2225333875908713861}
+  m_Layer: 9
+  m_Name: CrouchCheckGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2225333875908713861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3654764900688157349}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6676530574426743179}
+  - {fileID: 3633238736163589613}
+  - {fileID: 2573282277179480121}
+  - {fileID: 667911931516576754}
+  m_Father: {fileID: 8872319288008584870}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4228347478539664956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2573282277179480121}
+  - component: {fileID: 3219550680006985854}
+  m_Layer: 9
+  m_Name: WallForwardCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2573282277179480121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228347478539664956}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2225333875908713861}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3219550680006985854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228347478539664956}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11dbced0458aa0344bfe2e46e14fb40e, type: 3}
@@ -633,3 +853,183 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa7c59d4a33d1d48928d285080766e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6686806982837270219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6676530574426743179}
+  - component: {fileID: 4193826511712351453}
+  m_Layer: 9
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6676530574426743179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686806982837270219}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2225333875908713861}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4193826511712351453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686806982837270219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3d285c282aa9a469122b60b4a1def5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hOverlapPosition: {fileID: 0}
+  m_fRadius: 1
+  m_eTargetLayer:
+    serializedVersion: 2
+    m_Bits: 805323008
+  m_arrTargetTag: []
+  m_arrIgnoreTarget: []
+  m_bCheckUpdate: 1
+  m_eUpdateType: 1
+  m_nCheckArraySize: 3
+  m_arrCondition: []
+  m_hHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsGrounded
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_hNotHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsGrounded
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_nMaxSendData: 1
+  m_hHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls: []
+  m_bAlwayShowGizmos: 0
+  m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &8797373128944573296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3633238736163589613}
+  - component: {fileID: 3675705332034859725}
+  m_Layer: 9
+  m_Name: CeilingCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3633238736163589613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8797373128944573296}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2225333875908713861}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3675705332034859725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8797373128944573296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3d285c282aa9a469122b60b4a1def5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hOverlapPosition: {fileID: 0}
+  m_fRadius: 1
+  m_eTargetLayer:
+    serializedVersion: 2
+    m_Bits: 805306624
+  m_arrTargetTag: []
+  m_arrIgnoreTarget: []
+  m_bCheckUpdate: 1
+  m_eUpdateType: 1
+  m_nCheckArraySize: 3
+  m_arrCondition: []
+  m_hHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsCeiling
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_hNotHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetIsCeiling
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_nMaxSendData: 1
+  m_hHitEventGameObject:
+    m_PersistentCalls:
+      m_Calls: []
+  m_bAlwayShowGizmos: 0
+  m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}

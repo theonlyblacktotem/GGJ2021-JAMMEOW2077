@@ -399,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 123070678}
   - component: {fileID: 123070679}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Ladder_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 546333490}
   - component: {fileID: 546333491}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Ladder_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1616,7 +1616,8 @@ GameObject:
   m_Component:
   - component: {fileID: 979029055}
   - component: {fileID: 979029056}
-  m_Layer: 31
+  - component: {fileID: 979029057}
+  m_Layer: 0
   m_Name: Long Ladder
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -1654,7 +1655,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.031038761}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1665,8 +1666,20 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.69242024, y: 2.6306632}
+  m_Size: {x: 0.69242024, y: 2.5685859}
   m_EdgeRadius: 0
+--- !u!114 &979029057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979029054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e68e820123ccf140a373718697c0f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1053084012
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,7 +3178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1069855389}
   - component: {fileID: 1069855390}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Ladder_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3900,7 +3913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1394776955}
   - component: {fileID: 1394776956}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: Ladder_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
