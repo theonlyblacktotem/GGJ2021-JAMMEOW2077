@@ -7,6 +7,5 @@ namespace NTTMS.Test
         void UpdateInteraction(PlayerController hPlayer);
         void FixedUpdateInteraction(PlayerController hPlayer);
         void EndInteraction(PlayerController hPlayer);
-        void ShowInteractionUI(PlayerController hPlayer,bool bShow);
     }
 }

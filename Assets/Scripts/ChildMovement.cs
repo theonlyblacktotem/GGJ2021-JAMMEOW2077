@@ -5,13 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ChildMovement : PlayerController
 {
-    Animator anim;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        anim = GetComponent<Animator>();
-    }
 
     void Update()
     {
@@ -35,26 +28,18 @@ public class ChildMovement : PlayerController
 
     public override void SetDealth()
     {
-        anim.SetTrigger("Death");
-        Instantiate(darknessPrefab);
-        StartCoroutine(LosingPhase());
+        base.SetDealth();
         Debug.Log("Kid die");
-    }
-    [SerializeField] GameObject darknessPrefab;
-    IEnumerator LosingPhase()
-    {
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ForceSetBoolTrue(string key)
     {
-        anim.SetBool(key, true);
+        m_hAnim.SetBool(key, true);
     }
 
     public void ForceSetTrigger(string key)
     {
-        anim.SetTrigger(key);
+        m_hAnim.SetTrigger(key);
     }
 
     #region Helper

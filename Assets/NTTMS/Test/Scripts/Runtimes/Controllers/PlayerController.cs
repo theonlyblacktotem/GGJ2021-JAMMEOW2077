@@ -33,6 +33,7 @@ namespace NTTMS.Test
         [SerializeField] PlayerAnimatorController m_hAnimController;
         [SerializeField] GameObject m_hStandCheckGroup;
         [SerializeField] GameObject m_hCrouchCheckGroup;
+        [SerializeField] GameObject m_hInteractableCanvas;
 
         #endregion
 
@@ -51,7 +52,11 @@ namespace NTTMS.Test
 
         public bool isClimbing { get { return m_bClimbing; } }
 
+        public Vector2 inputAxis { get { return m_vInputAxis; } }
+
         public ClimbObjectController climbableController { get { return m_hClimbController; } set { m_hClimbController = value; } }
+
+        public float? overrideMoveSpeed { get { return m_fOverrideMoveSpeed; } set { m_fOverrideMoveSpeed = value; } }
 
         #endregion
 
@@ -61,6 +66,8 @@ namespace NTTMS.Test
         protected int m_nPlayerID;
 
         protected PlayerFlag m_eFlag;
+
+        protected float? m_fOverrideMoveSpeed;
 
         protected bool m_bFacingRight = true;
         protected bool m_bIsGrounded;
@@ -95,6 +102,7 @@ namespace NTTMS.Test
         protected float? m_fLastFrameGetInteractable;
 
         protected IInteractable m_hCurrentInteraction;
+        protected float? m_fEndInteractionDelay;
 
         #endregion
 
@@ -134,6 +142,7 @@ namespace NTTMS.Test
             CheckClimbInput();
 
             UpdateInteraction();
+            EndInteractionDelayCounting();
         }
 
         protected virtual void FixedUpdate()
@@ -213,17 +222,17 @@ namespace NTTMS.Test
 
         public void GetInteractableObject(GameObject hGO)
         {
+            if (m_hCurrentInteraction != null)
+                return;
+
             var hInteractable = hGO.GetComponent<IInteractable>();
             if (hInteractable != null)
             {
                 if (!hInteractable.CanInteraction(this))
                     return;
 
-                if (m_hInteractable != null && m_hInteractable != hInteractable)
-                    m_hInteractable.ShowInteractionUI(this, false);
-
                 m_hInteractable = hInteractable;
-                hInteractable.ShowInteractionUI(this, true);
+                m_hInteractableCanvas.SetActive(true);
 
                 m_fLastFrameGetInteractable = Time.time;
             }
@@ -253,10 +262,19 @@ namespace NTTMS.Test
             if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockClimb))
                 m_fMoveVertical = 0;
 
+            if ((m_fMoveHorizontal < 0
+                && FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMoveLeft))
+                || (m_fMoveHorizontal > 0
+                && FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMoveRight)))
+                m_fMoveHorizontal = 0;
+
             // Add velocity value to move.
             vMovePosition += m_vCurrentVelocity * fDeltaTime;
 
             float fMoveSpeed = m_bCrouching ? m_fCrouchSpeed : m_fMoveSpeed;
+            if (m_fOverrideMoveSpeed.HasValue)
+                fMoveSpeed = m_fOverrideMoveSpeed.Value;
+
             vMovePosition.x += m_fMoveHorizontal * fMoveSpeed * fDeltaTime;
             vMovePosition.y += m_fMoveVertical * m_fClimbSpeed * fDeltaTime;
             ChangeMoveXIfHasObstacle(ref vMovePosition);
@@ -271,17 +289,25 @@ namespace NTTMS.Test
                 return;
 
             m_fJumpInputStartTime = Time.time;
+            m_hAnimController.SetJumpReady(true);
         }
 
         protected virtual void JumpInputEnd()
         {
             m_fJumpInputStartTime = null;
+            m_hAnimController.SetJumpReady(false);
         }
 
         protected virtual void JumpInputUpdate()
         {
             if (!m_fJumpInputStartTime.HasValue)
                 return;
+
+            if (!m_bIsGrounded)
+            {
+                JumpInputEnd();
+                return;
+            }
 
             if (Time.time >= m_fJumpInputStartTime + m_fJumpInputHold)
             {
@@ -380,6 +406,11 @@ namespace NTTMS.Test
                 bClimbing = false;
             }
 
+            if (m_vInputAxis.y == 0 && m_vInputAxis.x != 0)
+            {
+                bClimbing = false;
+            }
+
             if (bClimbing != m_bClimbing)
             {
                 if (bClimbing)
@@ -421,7 +452,7 @@ namespace NTTMS.Test
 
         protected void CheckInteractionStart()
         {
-            if (m_hInteractable == null)
+            if (m_hInteractable == null || m_fEndInteractionDelay.HasValue)
                 return;
 
             if (m_fActionInputStartTime.HasValue && Time.time <= m_fActionInputStartTime + 0.2f)
@@ -454,6 +485,19 @@ namespace NTTMS.Test
 
             m_hCurrentInteraction.EndInteraction(this);
             m_hCurrentInteraction = null;
+
+            m_fEndInteractionDelay = Time.time + 0.2f;
+        }
+
+        protected void EndInteractionDelayCounting()
+        {
+            if (!m_fEndInteractionDelay.HasValue)
+                return;
+
+            if (Time.time >= m_fEndInteractionDelay)
+            {
+                m_fEndInteractionDelay = null;
+            }
         }
 
         #endregion
@@ -544,7 +588,7 @@ namespace NTTMS.Test
                 return;
 
             m_fLastFrameGetInteractable = null;
-            m_hInteractable.ShowInteractionUI(this, false);
+            m_hInteractableCanvas.SetActive(false);
             m_hInteractable = null;
         }
 

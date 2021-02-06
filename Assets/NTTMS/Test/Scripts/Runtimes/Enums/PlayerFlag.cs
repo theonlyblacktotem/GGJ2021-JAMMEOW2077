@@ -10,6 +10,8 @@ namespace NTTMS.Test
         LockJump    =   1 << 1,
         LockClimb   =   1 << 2,
         LockCrouch  =   1 << 3,
-        LockFlip    =   1 << 4
+        LockFlip    =   1 << 4,
+        LockMoveLeft   =   1 << 5,
+        LockMoveRight   =   1 << 6
     }
 }

@@ -29,6 +29,11 @@ namespace NTTMS.Test
             m_hAnim.SetBool("Walking", bWalk);
         }
 
+        public void SetJumpReady(bool bReady)
+        {
+            m_hAnim.SetBool("JumpReady", bReady);
+        }
+
         public void SetJump(bool bJump)
         {
             m_hAnim.SetBool("Jumping", bJump);
@@ -51,7 +56,7 @@ namespace NTTMS.Test
 
         public void SetPush(bool bPush)
         {
-            m_hAnim.SetBool("Pushing",bPush);
+            m_hAnim.SetBool("Pushing", bPush);
         }
 
         #endregion

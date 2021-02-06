@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     protected UnityAction<PlayerController> inputActionHoldOverride;
     protected UnityAction<PlayerController> inputActionUpOverride;
 
+    protected Animator m_hAnim;
+
     protected float horizontalMove = 0f;
     protected float verticalMove = 0f;
 
@@ -43,6 +45,8 @@ public class PlayerController : MonoBehaviour
     protected Coroutine coro;
     protected WaitForSeconds delayJumpInput = new WaitForSeconds(0.02f);
 
+    [SerializeField] GameObject darknessPrefab;
+
     public Animator anim;
 
     #endregion
@@ -53,6 +57,8 @@ public class PlayerController : MonoBehaviour
     {
         AllCrate = GameObject.FindGameObjectsWithTag(TagName.crate);
         anim = GetComponent<Animator>();
+
+        m_hAnim = GetComponent<Animator>();
     }
 
     #endregion
@@ -224,8 +230,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(LosingPhase());
     }
 
-    [SerializeField] GameObject darknessPrefab;
-    IEnumerator LosingPhase()
+    protected IEnumerator LosingPhase()
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
