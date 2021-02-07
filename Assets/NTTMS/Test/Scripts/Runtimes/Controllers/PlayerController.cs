@@ -24,7 +24,7 @@ namespace NTTMS.Test
         [SerializeField] protected float m_fClimbSpeed = 5.2f;
         [Min(0)]
         [SerializeField] protected float m_fJumpForce = 5f;
-        
+
 
         [Min(0)]
         [SerializeField] protected float m_fJumpInputHold = 3f;
@@ -111,6 +111,8 @@ namespace NTTMS.Test
         protected float? m_fMaxAirPosition;
 
         protected bool m_bDead;
+        
+        protected Vector3 m_vInteractableCanvasOffset;
 
         #endregion
 
@@ -130,6 +132,9 @@ namespace NTTMS.Test
             {
                 m_nPlayerID = 1;
             }
+
+            m_vInteractableCanvasOffset = m_hInteractableCanvas.transform.position - transform.position;
+            m_hInteractableCanvas.transform.SetParent(null);
         }
 
         protected virtual void OnEnable()
@@ -154,6 +159,11 @@ namespace NTTMS.Test
 
             UpdateInteraction();
             EndInteractionDelayCounting();
+        }
+
+        void LateUpdate()
+        {
+            InteractableCanvasFollowing();
         }
 
         protected virtual void FixedUpdate()
@@ -253,6 +263,21 @@ namespace NTTMS.Test
             }
         }
 
+        public void GetHalfGroundInFront(RaycastHit2D hHit)
+        {
+            if (!m_bIsGrounded || m_bClimbing)
+                return;
+
+            if (IsMoveForward() && !m_bIsWallForward)
+            {
+                Vector2 vPosition = transform.position;
+                float fBottomDistance = GetBottomPosition().y;
+                float fUpPosition = vPosition.y - fBottomDistance - hHit.distance;
+                vPosition.y += fUpPosition;
+                transform.position = vPosition;
+            }
+        }
+
         #endregion
 
         #region Base - Main
@@ -291,11 +316,11 @@ namespace NTTMS.Test
 
             float fMoveSpeed = m_fMoveSpeed;
 
-            if(!m_bIsGrounded)
+            if (!m_bIsGrounded)
                 fMoveSpeed = m_fAirMoveSpeed;
-            else if(m_bCrouching)
+            else if (m_bCrouching)
                 fMoveSpeed = m_fCrouchSpeed;
-            
+
             if (m_fOverrideMoveSpeed.HasValue)
                 fMoveSpeed = m_fOverrideMoveSpeed.Value;
 
@@ -528,6 +553,9 @@ namespace NTTMS.Test
 
         protected void CheckDeathFromFalling()
         {
+            if (IsUncle())
+                return;
+
             if (m_bIsGrounded)
             {
                 if (m_fMaxAirPosition.HasValue)
@@ -554,6 +582,11 @@ namespace NTTMS.Test
             m_bDead = true;
             m_hAnimController.TriggerHurt();
             Global_GameplayManager.GameOver();
+        }
+
+        protected void InteractableCanvasFollowing()
+        {
+            m_hInteractableCanvas.transform.position = transform.position + m_vInteractableCanvasOffset;
         }
 
         #endregion
@@ -648,7 +681,17 @@ namespace NTTMS.Test
             m_hInteractable = null;
         }
 
+        protected bool IsMoveForward()
+        {
+            bool bResult = false;
+            if (m_vInputAxis.x != 0)
+            {
+                bResult = (m_vInputAxis.x > 0 && m_bFacingRight)
+                            || (m_vInputAxis.x < 0 && !m_bFacingRight);
+            }
 
+            return bResult;
+        }
 
         #endregion
     }

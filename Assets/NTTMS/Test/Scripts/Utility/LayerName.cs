@@ -11,5 +11,6 @@ namespace NTTMS.Test
         public const string climb = "Climb";
         public const string interactable = "Interactable";
         public const string notPlayerCollision = "NotPlayerCollision";
+        public const string playerPush = "PlayerPush";
     }
 }

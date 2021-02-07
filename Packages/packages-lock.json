@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "346797cc2253c746251e00ec2dcf0df1c41a6a71"
+      "hash": "00bfaed92b724ed82d8cc60b1c1cbf1e84ee61ab"
     },
     "com.dsc.input": {
       "version": "https://github.com/DeStiCap/DSC-Input.git",

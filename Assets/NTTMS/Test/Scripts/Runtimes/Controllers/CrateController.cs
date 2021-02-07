@@ -26,6 +26,8 @@ namespace NTTMS.Test
                                 | PlayerFlag.LockJump | PlayerFlag.LockCrouch
                                 | PlayerFlag.LockClimb | PlayerFlag.LockFlip;
 
+        PlayerController m_hCurrentPlayer;
+
         #endregion
 
         #region Base - Mono
@@ -41,7 +43,7 @@ namespace NTTMS.Test
 
         public bool CanInteraction(PlayerController hPlayer)
         {
-            if (hPlayer == null)
+            if (hPlayer == null || m_hCurrentPlayer)
                 return false;
             
             float fDistanceX = Mathf.Abs(hPlayer.transform.position.x - transform.position.x);     
@@ -50,15 +52,18 @@ namespace NTTMS.Test
 
         public void StartInteraction(PlayerController hPlayer)
         {
-            if (hPlayer == null)
+            if (hPlayer == null || (m_hCurrentPlayer != null && m_hCurrentPlayer != hPlayer ))
                 return;
+
+            m_hCurrentPlayer = hPlayer;
 
             hPlayer.playerFlag |= m_eLockFlag;
             hPlayer.animatorController.SetPush(true);
             hPlayer.overrideMoveSpeed = m_fPushSpeed;
 
-            gameObject.layer = LayerMask.NameToLayer(LayerName.defaultLayer);
-            m_hBlockPlayerPush.SetActive(false);
+            hPlayer.gameObject.layer = LayerMask.NameToLayer(LayerName.playerPush);
+            //gameObject.layer = LayerMask.NameToLayer(LayerName.defaultLayer);
+            //m_hBlockPlayerPush.SetActive(false);
 
             bool bPlayerOnRight = transform.position.x - hPlayer.transform.position.x < 0;
             hPlayer.playerFlag &= bPlayerOnRight ? ~PlayerFlag.LockMoveLeft : ~PlayerFlag.LockMoveRight;
@@ -81,12 +86,15 @@ namespace NTTMS.Test
 
         public void EndInteraction(PlayerController hPlayer)
         {
+            m_hCurrentPlayer = null;
+
             hPlayer.playerFlag &= ~m_eLockFlag;
             hPlayer.animatorController.SetPush(false);
             hPlayer.overrideMoveSpeed = null;
 
-            gameObject.layer = LayerMask.NameToLayer(LayerName.notPlayerCollision);
-            m_hBlockPlayerPush.SetActive(true);
+            hPlayer.gameObject.layer = LayerMask.NameToLayer(LayerName.player);
+            //gameObject.layer = LayerMask.NameToLayer(LayerName.notPlayerCollision);
+            //m_hBlockPlayerPush.SetActive(true);
         }
 
         #endregion

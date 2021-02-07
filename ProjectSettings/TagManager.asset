@@ -37,8 +37,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - PlayerPush
+  - HalfGround
   - Wall
   - PlayerCollision
   - NotPlayerCollision
