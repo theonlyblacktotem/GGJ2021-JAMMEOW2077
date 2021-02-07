@@ -104,6 +104,10 @@ namespace NTTMS.Test
         protected IInteractable m_hCurrentInteraction;
         protected float? m_fEndInteractionDelay;
 
+        protected float? m_fMaxAirPosition;
+
+        protected bool m_bDead;
+
         #endregion
 
         #region Base - Mono
@@ -136,6 +140,9 @@ namespace NTTMS.Test
 
         protected virtual void Update()
         {
+            if (m_bDead)
+                return;
+
             m_vInputAxis = Global_InputManager.GetRawAxis(m_nPlayerID, 0);
 
             JumpDelayCheckCounting();
@@ -147,6 +154,10 @@ namespace NTTMS.Test
 
         protected virtual void FixedUpdate()
         {
+            if (m_bDead)
+                return;
+
+            CheckDeathFromFalling();
             AddGravityVelocity();
             CheckResetVelocityY();
             CheckJumpEnd();
@@ -289,7 +300,9 @@ namespace NTTMS.Test
                 return;
 
             m_fJumpInputStartTime = Time.time;
-            m_hAnimController.SetJumpReady(true);
+
+            if (!IsUncle())
+                m_hAnimController.SetJumpReady(true);
         }
 
         protected virtual void JumpInputEnd()
@@ -500,6 +513,36 @@ namespace NTTMS.Test
             }
         }
 
+        protected void CheckDeathFromFalling()
+        {
+            if (m_bIsGrounded)
+            {
+                if (m_fMaxAirPosition.HasValue)
+                {
+                    float fFallDistance = m_fMaxAirPosition.Value - transform.position.y;
+                    m_fMaxAirPosition = null;
+
+                    if (fFallDistance >= 3f)
+                    {
+                        Death();
+                    }
+                }
+                return;
+            }
+
+            float fPositionY = transform.position.y;
+            if (!m_fMaxAirPosition.HasValue
+                || (m_fMaxAirPosition < fPositionY))
+                m_fMaxAirPosition = fPositionY;
+        }
+
+        protected virtual void Death()
+        {
+            m_bDead = true;
+            m_hAnimController.TriggerHurt();
+            Global_GameplayManager.GameOver();
+        }
+
         #endregion
 
         #region Helper
@@ -591,6 +634,8 @@ namespace NTTMS.Test
             m_hInteractableCanvas.SetActive(false);
             m_hInteractable = null;
         }
+
+
 
         #endregion
     }

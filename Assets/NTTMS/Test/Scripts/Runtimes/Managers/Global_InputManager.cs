@@ -6,6 +6,7 @@ using DSC.Input;
 using DSC.Event;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.SceneManagement;
 
 namespace NTTMS.Test
 {
@@ -36,7 +37,7 @@ namespace NTTMS.Test
         {
             get
             {
-                if (m_hInstance == null)
+                if (m_hInstance == null && m_bAppStart && !m_bAppQuit)
                     Debug.LogWarning("Don't have Global_InputManager in scene.");
 
                 return m_hInstance;
@@ -50,6 +51,8 @@ namespace NTTMS.Test
         #endregion
 
         static Global_InputManager m_hInstance;
+        static bool m_bAppStart;
+        static bool m_bAppQuit;
 
         GameInputData m_hGameInputData;
         EventCallback<DSC_InputEventType, GameInputData> m_evtInput = new EventCallback<DSC_InputEventType, GameInputData>();
@@ -71,13 +74,30 @@ namespace NTTMS.Test
                 return;
             }
 
+            Application.quitting += OnAppQuit;
+
             InitInput(m_nMaxPlayerNumber, m_fSensitivity, m_fGravity);
             Init();
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void OnAppStart()
+        {
+            m_bAppStart = true;
+            m_bAppQuit = false;
+        }
+
+        void OnAppQuit()
+        {
+            Application.quitting -= OnAppQuit;
+
+            m_bAppStart = false;
+            m_bAppQuit = true;
+        }
+
         void OnDestroy()
         {
-            if (m_hInstance == null)
+            if (m_hInstance == null || m_hInstance != this)
                 return;
 
             ClearOnDestroy();

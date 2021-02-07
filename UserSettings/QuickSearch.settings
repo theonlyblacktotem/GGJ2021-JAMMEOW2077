@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "t:animation Pu"
+	"last_search.AB59B443" = "t:prefab dark"
 }
 providers = {
 	asset = {

@@ -59,6 +59,11 @@ namespace NTTMS.Test
             m_hAnim.SetBool("Pushing", bPush);
         }
 
+        public void TriggerHurt()
+        {
+            m_hAnim.SetTrigger("Hurt");
+        }
+
         #endregion
     }
 }
