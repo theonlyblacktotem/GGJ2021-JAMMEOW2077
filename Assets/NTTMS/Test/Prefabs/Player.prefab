@@ -181,7 +181,9 @@ MonoBehaviour:
   m_fCrouchSpeed: 2.6
   m_fClimbSpeed: 2.6
   m_fJumpForce: 5.5
+  m_fJumpMoveSpeed: 3
   m_fJumpInputHold: 1
+  m_bAirControl: 0
   m_hFlipEvent:
     m_PersistentCalls:
       m_Calls:

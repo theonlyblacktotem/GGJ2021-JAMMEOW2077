@@ -17,14 +17,18 @@ namespace NTTMS.Test
         [Min(0)]
         [SerializeField] protected float m_fMoveSpeed = 5.2f;
         [Min(0)]
+        [SerializeField] protected float m_fAirMoveSpeed = 3f;
+        [Min(0)]
         [SerializeField] protected float m_fCrouchSpeed = 2.6f;
         [Min(0)]
         [SerializeField] protected float m_fClimbSpeed = 5.2f;
         [Min(0)]
         [SerializeField] protected float m_fJumpForce = 5f;
+        
 
         [Min(0)]
         [SerializeField] protected float m_fJumpInputHold = 3f;
+        [SerializeField] protected bool m_bAirControl;
 
         [Header("Event")]
         [SerializeField] UnityEvent m_hFlipEvent;
@@ -279,10 +283,19 @@ namespace NTTMS.Test
                 && FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMoveRight)))
                 m_fMoveHorizontal = 0;
 
+            //if (!m_bAirControl && !m_bIsGrounded && !m_bCurrentJump)
+            //    m_fMoveHorizontal = 0;
+
             // Add velocity value to move.
             vMovePosition += m_vCurrentVelocity * fDeltaTime;
 
-            float fMoveSpeed = m_bCrouching ? m_fCrouchSpeed : m_fMoveSpeed;
+            float fMoveSpeed = m_fMoveSpeed;
+
+            if(!m_bIsGrounded)
+                fMoveSpeed = m_fAirMoveSpeed;
+            else if(m_bCrouching)
+                fMoveSpeed = m_fCrouchSpeed;
+            
             if (m_fOverrideMoveSpeed.HasValue)
                 fMoveSpeed = m_fOverrideMoveSpeed.Value;
 
