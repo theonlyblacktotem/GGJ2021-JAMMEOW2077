@@ -289,11 +289,6 @@ PrefabInstance:
       propertyPath: m_eCharacterType
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8088715986307327715, guid: 1eda82bbfae73b0499cf407fe2e2e2c4,
-        type: 3}
-      propertyPath: m_fJumpInputHold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8798754549154331058, guid: 1eda82bbfae73b0499cf407fe2e2e2c4,
         type: 3}
       propertyPath: m_Controller

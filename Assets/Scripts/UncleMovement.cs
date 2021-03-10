@@ -29,15 +29,4 @@ public class UncleMovement : PlayerController
         base.SetDealth();
         Debug.Log("Uncle die");
     }
-
-    public void ForceSetBoolTrue(string key)
-    {
-        anim.SetBool(key, true);
-    }
-
-    public void ForceSetTrigger(string key)
-    {
-        anim.SetTrigger(key);
-    }
-
 }

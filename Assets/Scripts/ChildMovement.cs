@@ -32,16 +32,6 @@ public class ChildMovement : PlayerController
         Debug.Log("Kid die");
     }
 
-    public void ForceSetBoolTrue(string key)
-    {
-        m_hAnim.SetBool(key, true);
-    }
-
-    public void ForceSetTrigger(string key)
-    {
-        m_hAnim.SetTrigger(key);
-    }
-
     #region Helper
 
 

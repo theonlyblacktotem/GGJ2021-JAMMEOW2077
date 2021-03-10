@@ -87,7 +87,19 @@ MonoBehaviour:
   m_nMaxSendData: 1
   m_hHitEventGameObject:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8088715986307327715}
+        m_TargetAssemblyTypeName: NTTMS.Test.PlayerController, NTTMS.Test
+        m_MethodName: SetGround
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_bAlwayShowGizmos: 0
   m_hGizmosColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &511255765517648812
@@ -102,6 +114,8 @@ GameObject:
   - component: {fileID: 4942636422673988646}
   - component: {fileID: 2733276932991516273}
   - component: {fileID: 8088715986307327715}
+  - component: {fileID: 9140201842703929150}
+  - component: {fileID: 6629805589302484601}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -177,11 +191,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eCharacterType: 0
-  m_fMoveSpeed: 5.2
-  m_fAirMoveSpeed: 3
-  m_fCrouchSpeed: 2.6
-  m_fClimbSpeed: 2.6
-  m_fJumpForce: 5.5
   m_fJumpInputHold: 1
   m_bAirControl: 0
   m_hFlipEvent:
@@ -203,6 +212,35 @@ MonoBehaviour:
   m_hStandCheckGroup: {fileID: 4853290315937216410}
   m_hCrouchCheckGroup: {fileID: 3654764900688157349}
   m_hInteractableCanvas: {fileID: 9155256369486120512}
+--- !u!114 &9140201842703929150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511255765517648812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4497e88fd0c05845b8c2092026d7a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fMoveSpeed: 5.2
+  m_fAirMoveSpeed: 3
+  m_fCrouchSpeed: 2.6
+  m_fClimbSpeed: 2.6
+  m_fJumpForce: 5.5
+--- !u!114 &6629805589302484601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511255765517648812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a47727041b30c449d376386958cff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &585269222692953323
 GameObject:
   m_ObjectHideFlags: 0

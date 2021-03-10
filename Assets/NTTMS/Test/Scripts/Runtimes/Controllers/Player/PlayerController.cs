@@ -14,18 +14,8 @@ namespace NTTMS.Test
         #region Variable - Inspector
 
         [SerializeField] PlayerCharacterType m_eCharacterType;
-        [Min(0)]
-        [SerializeField] protected float m_fMoveSpeed = 5.2f;
-        [Min(0)]
-        [SerializeField] protected float m_fAirMoveSpeed = 3f;
-        [Min(0)]
-        [SerializeField] protected float m_fCrouchSpeed = 2.6f;
-        [Min(0)]
-        [SerializeField] protected float m_fClimbSpeed = 5.2f;
-        [Min(0)]
-        [SerializeField] protected float m_fJumpForce = 5f;
 
-
+        [Header("Input")]
         [Min(0)]
         [SerializeField] protected float m_fJumpInputHold = 3f;
         [SerializeField] protected bool m_bAirControl;
@@ -43,11 +33,11 @@ namespace NTTMS.Test
 
         #region Variable - Property
 
+        public PlayerStatusController statusController { get { return m_hStatusController; } }
+        public PlayerMoveController moveController { get { return m_hMoveController; } }
         public PlayerAnimatorController animatorController { get { return m_hAnimController; } }
 
         public PlayerCharacterType characterType { get { return m_eCharacterType; } }
-
-        public PlayerFlag playerFlag { get { return m_eFlag; } set { m_eFlag = value; } }
 
         public int playerID { get { return m_nPlayerID; } }
         public bool isGrounded { get { return m_bIsGrounded; } }
@@ -67,9 +57,10 @@ namespace NTTMS.Test
         protected Rigidbody2D m_hRigid;
         protected CapsuleCollider2D m_hCol;
 
-        protected int m_nPlayerID;
+        protected PlayerStatusController m_hStatusController;
+        protected PlayerMoveController m_hMoveController;
 
-        protected PlayerFlag m_eFlag;
+        protected int m_nPlayerID;
 
         protected float? m_fOverrideMoveSpeed;
 
@@ -111,8 +102,10 @@ namespace NTTMS.Test
         protected float? m_fMaxAirPosition;
 
         protected bool m_bDead;
-        
+
         protected Vector3 m_vInteractableCanvasOffset;
+
+        protected IMoveablePlatform m_hMoveablePlatform;
 
         #endregion
 
@@ -122,6 +115,10 @@ namespace NTTMS.Test
         {
             m_hRigid = GetComponent<Rigidbody2D>();
             m_hCol = GetComponent<CapsuleCollider2D>();
+
+            m_hStatusController = GetComponent<PlayerStatusController>();
+            m_hMoveController = GetComponent<PlayerMoveController>();
+
             m_fGravityScaleOrigin = m_hRigid.gravityScale;
             m_hRigid.gravityScale = 0;
 
@@ -214,6 +211,41 @@ namespace NTTMS.Test
 
         #endregion
 
+        public void SetGround(GameObject hGrounded)
+        {
+            if (hGrounded == null)
+            {
+                UnregisterMoveablePlatform();
+                return;
+            }
+
+            var hMoveablePlatform = hGrounded.GetComponentInParent<IMoveablePlatform>();
+            if (hMoveablePlatform == null)
+            {
+                UnregisterMoveablePlatform();
+                return;
+            }
+
+            if (hMoveablePlatform == m_hMoveablePlatform)
+                return;
+
+            m_hMoveablePlatform = hMoveablePlatform;
+            m_hMoveablePlatform.RegisterStandFollow(m_hMoveController);
+
+
+            #region Method
+
+            void UnregisterMoveablePlatform()
+            {
+                if (m_hMoveablePlatform != null)
+                {
+                    m_hMoveablePlatform.UnregisterStandFollow(m_hMoveController);
+                }
+            }
+
+            #endregion
+        }
+
         public void SetIsGrounded(bool bIsGrounded)
         {
             m_bIsGrounded = bIsGrounded;
@@ -227,6 +259,16 @@ namespace NTTMS.Test
             if (bIsGrounded && m_bIsJumping && m_fJumpDelayCheck <= 0)
             {
                 IsJump(false);
+            }
+
+            if (!bIsGrounded)
+            {
+                if (m_hMoveablePlatform != null)
+                {
+                    m_hMoveablePlatform.UnregisterStandFollow(m_hMoveController);
+                    m_hMoveablePlatform = null;
+                }
+
             }
         }
 
@@ -271,7 +313,7 @@ namespace NTTMS.Test
             if (IsMoveForward() && !m_bIsWallForward)
             {
                 Vector2 vPosition = transform.position;
-                float fBottomDistance = GetBottomPosition().y;
+                float fBottomDistance = m_hCol.GetPositionBottom().y;
                 float fUpPosition = vPosition.y - fBottomDistance - hHit.distance;
                 vPosition.y += fUpPosition;
                 transform.position = vPosition;
@@ -297,15 +339,15 @@ namespace NTTMS.Test
             else
                 m_fMoveVertical = 0;
 
-            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMove))
+            if (HasLockFlag(PlayerLockFlag.LockMove))
                 m_fMoveHorizontal = 0;
-            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockClimb))
+            if (HasLockFlag(PlayerLockFlag.LockClimb))
                 m_fMoveVertical = 0;
 
             if ((m_fMoveHorizontal < 0
-                && FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMoveLeft))
+                && HasLockFlag(PlayerLockFlag.LockMoveLeft))
                 || (m_fMoveHorizontal > 0
-                && FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMoveRight)))
+                && HasLockFlag(PlayerLockFlag.LockMoveRight)))
                 m_fMoveHorizontal = 0;
 
             //if (!m_bAirControl && !m_bIsGrounded && !m_bCurrentJump)
@@ -314,22 +356,23 @@ namespace NTTMS.Test
             // Add velocity value to move.
             vMovePosition += m_vCurrentVelocity * fDeltaTime;
 
-            float fMoveSpeed = m_fMoveSpeed;
+            float fMoveSpeed = m_hStatusController.moveSpeed;
 
             if (!m_bIsGrounded)
-                fMoveSpeed = m_fAirMoveSpeed;
+                fMoveSpeed = m_hStatusController.airMoveSpeed;
             else if (m_bCrouching)
-                fMoveSpeed = m_fCrouchSpeed;
+                fMoveSpeed = m_hStatusController.crouchSpeed;
 
             if (m_fOverrideMoveSpeed.HasValue)
                 fMoveSpeed = m_fOverrideMoveSpeed.Value;
 
             vMovePosition.x += m_fMoveHorizontal * fMoveSpeed * fDeltaTime;
-            vMovePosition.y += m_fMoveVertical * m_fClimbSpeed * fDeltaTime;
+            vMovePosition.y += m_fMoveVertical * m_hStatusController.climbSpeed * fDeltaTime;
             ChangeMoveXIfHasObstacle(ref vMovePosition);
 
-            vMovePosition += m_hRigid.position;
-            m_hRigid.MovePosition(vMovePosition);
+            m_hMoveController.Move(vMovePosition);
+            //vMovePosition += m_hRigid.position;
+            //m_hRigid.MovePosition(vMovePosition);
         }
 
         protected virtual void JumpInputStart()
@@ -372,10 +415,10 @@ namespace NTTMS.Test
             if (IsUncle())
                 return;
 
-            if (!m_bIsGrounded || m_bIsCeiling || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockJump))
+            if (!m_bIsGrounded || m_bIsCeiling || HasLockFlag(PlayerLockFlag.LockJump))
                 return;
 
-            m_vCurrentVelocity.y += m_fJumpForce;
+            m_vCurrentVelocity.y += m_hStatusController.jumpForce;
 
             IsJump(true);
             m_fJumpDelayCheck = 0.2f;
@@ -398,7 +441,7 @@ namespace NTTMS.Test
 
             bool bCrouching = m_bIsGrounded && m_vInputAxis.y < 0;
             if (m_bClimbing || m_fJumpInputStartTime.HasValue
-                || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockCrouch))
+                || HasLockFlag(PlayerLockFlag.LockCrouch))
                 bCrouching = false;
 
             if ((m_bCrouching == bCrouching) || (m_bCrouching && m_bIsCeiling))
@@ -442,7 +485,7 @@ namespace NTTMS.Test
 
             bool bClimbing = m_bClimbing;
             bool bBelowCenter = climbableController.IsBelowCenter(transform.position);
-            float fPlayerBottomPosition = GetBottomPosition().y;
+            float fPlayerBottomPosition = m_hCol.GetPositionBottom().y;
             float fTopPosition = climbableController.GetTopPosition().y;
             bool bOverTop = fPlayerBottomPosition >= fTopPosition - 0.1f;
 
@@ -479,6 +522,7 @@ namespace NTTMS.Test
             Vector2 vPosition = transform.position;
             vPosition.x = climbableController.GetCenterPosition().x;
             transform.position = vPosition;
+            m_hMoveController.StopMove();
 
             gameObject.layer = LayerMask.NameToLayer(LayerName.climb);
         }
@@ -495,7 +539,7 @@ namespace NTTMS.Test
         {
             bool bWalk = m_vInputAxis.x != 0;
             if (m_fJumpInputStartTime.HasValue
-                || FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockMove))
+                || HasLockFlag(PlayerLockFlag.LockMove))
                 bWalk = false;
 
             m_hAnimController.SetWalk(bWalk);
@@ -624,7 +668,7 @@ namespace NTTMS.Test
 
         protected void CheckFlipCharacter()
         {
-            if (FlagUtility.HasFlagUnsafe(m_eFlag, PlayerFlag.LockFlip))
+            if (HasLockFlag(PlayerLockFlag.LockFlip))
                 return;
 
             if ((m_vInputAxis.x > 0 && !m_bFacingRight)
@@ -656,13 +700,6 @@ namespace NTTMS.Test
             m_hAnimController.SetJump(bJump);
         }
 
-        protected Vector2 GetBottomPosition()
-        {
-            Vector2 vPosition = m_hRigid.position + m_hCol.offset;
-            vPosition.y -= m_hCol.size.y * 0.5f;
-            return vPosition;
-        }
-
         protected bool IsUncle()
         {
             return m_eCharacterType == PlayerCharacterType.Uncle;
@@ -691,6 +728,11 @@ namespace NTTMS.Test
             }
 
             return bResult;
+        }
+
+        protected bool HasLockFlag(PlayerLockFlag eLockFlag)
+        {
+            return FlagUtility.HasFlagUnsafe(m_hStatusController.lockFlag, eLockFlag);
         }
 
         #endregion

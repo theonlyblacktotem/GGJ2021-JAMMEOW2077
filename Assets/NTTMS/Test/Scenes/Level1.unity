@@ -1039,11 +1039,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChildPlayer
       objectReference: {fileID: 0}
-    - target: {fileID: 5329779788044399265, guid: c616b073e3b2ef944b8a6b60840baab2,
-        type: 3}
-      propertyPath: m_fJumpInputHold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6368175872850814212, guid: c616b073e3b2ef944b8a6b60840baab2,
         type: 3}
       propertyPath: m_RootOrder

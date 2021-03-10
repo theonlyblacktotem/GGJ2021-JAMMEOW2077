@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NTTMS.Test
 {    
-    public enum PlayerFlag
+    public enum PlayerLockFlag
     {
         LockMove    =   1 << 0,
         LockJump    =   1 << 1,

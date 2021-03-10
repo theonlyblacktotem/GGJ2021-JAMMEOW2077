@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c41078fec2b419e316a36323a23df09557a0c8c7"
+      "hash": "e45959359f20bc2e28b062b152e27b0896de10ed"
     },
     "com.dsc.event": {
       "version": "https://github.com/DeStiCap/DSC-Event.git",
