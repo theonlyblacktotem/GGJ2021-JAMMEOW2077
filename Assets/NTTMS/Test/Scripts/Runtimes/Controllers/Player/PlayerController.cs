@@ -250,10 +250,6 @@ namespace NTTMS.Test
         {
             m_bIsGrounded = bIsGrounded;
 
-            // Temp
-            if (IsUncle())
-                bIsGrounded = true;
-
             m_hAnimController.SetGrounded(bIsGrounded);
 
             if (bIsGrounded && m_bIsJumping && m_fJumpDelayCheck <= 0)

@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "t:scene Level1"
+	"last_search.AB59B443" = "t:animation Falling"
 }
 providers = {
 	asset = {
