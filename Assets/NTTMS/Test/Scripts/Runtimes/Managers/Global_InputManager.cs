@@ -24,10 +24,6 @@ namespace NTTMS.Test
         [Header("Other")]
         [SerializeField] int m_nMaxPlayerNumber = 1;
 
-        [Header("Keyboard")]
-        [SerializeField] InputActionAsset m_hPlayer1;
-        [SerializeField] InputActionAsset m_hPlayer2;
-
 #pragma warning restore 0649
         #endregion
 
@@ -77,7 +73,6 @@ namespace NTTMS.Test
             Application.quitting += OnAppQuit;
 
             InitInput(m_nMaxPlayerNumber, m_fSensitivity, m_fGravity);
-            Init();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -99,8 +94,6 @@ namespace NTTMS.Test
         {
             if (m_hInstance == null || m_hInstance != this)
                 return;
-
-            ClearOnDestroy();
         }
 
         private void Update()
@@ -141,46 +134,6 @@ namespace NTTMS.Test
 
 
         #region Helper
-
-        void Init()
-        {
-            var hAction = m_hPlayer1.FindAction("Axis");
-            hAction.performed += OnMovement_Player1;
-            hAction.canceled += OnMovement_Player1;
-            hAction = m_hPlayer2.FindAction("Axis");
-            hAction.performed += OnMovement_Player2;
-            hAction.canceled += OnMovement_Player2;
-
-            hAction = m_hPlayer1.FindAction("South");
-            hAction.performed += OnAction_Player1;
-            hAction.canceled += OnAction_Player1;
-            hAction = m_hPlayer2.FindAction("South");
-            hAction.performed += OnAction_Player2;
-            hAction.canceled += OnAction_Player2;
-
-            m_hPlayer1.Enable();
-            m_hPlayer2.Enable();
-        }
-
-        void ClearOnDestroy()
-        {
-            var hAction = m_hPlayer1.FindAction("Axis");
-            hAction.performed -= OnMovement_Player1;
-            hAction.canceled -= OnMovement_Player1;
-            hAction = m_hPlayer2.FindAction("Axis");
-            hAction.performed -= OnMovement_Player2;
-            hAction.canceled -= OnMovement_Player2;
-
-            hAction = m_hPlayer1.FindAction("South");
-            hAction.performed -= OnAction_Player1;
-            hAction.canceled -= OnAction_Player1;
-            hAction = m_hPlayer2.FindAction("South");
-            hAction.performed -= OnAction_Player2;
-            hAction.canceled -= OnAction_Player2;
-
-            m_hPlayer1.Disable();
-            m_hPlayer2.Disable();
-        }
 
         #endregion
     }
