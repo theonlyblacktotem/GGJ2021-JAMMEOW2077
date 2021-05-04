@@ -1,18 +1,18 @@
 {
   "dependencies": {
     "com.dsc.core": {
-      "version": "https://github.com/DeStiCap/DSC-Core.git#7736f7de6c98fd5a6ece941d1dcbecc3088e1da3",
+      "version": "https://github.com/DeStiCap/DSC-Core.git#9285470f379f889932b39f4164b4646eb1f6597a",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "7736f7de6c98fd5a6ece941d1dcbecc3088e1da3"
+      "hash": "9285470f379f889932b39f4164b4646eb1f6597a"
     },
     "com.dsc.event": {
-      "version": "https://github.com/DeStiCap/DSC-Event.git#4addda3322237688b38061e92fe7f7e1a515b6bf",
+      "version": "https://github.com/DeStiCap/DSC-Event.git#3c23bfa471f11ea85e9c758c65e0360e081f1614",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "4addda3322237688b38061e92fe7f7e1a515b6bf"
+      "hash": "3c23bfa471f11ea85e9c758c65e0360e081f1614"
     },
     "com.dsc.input": {
       "version": "https://github.com/DeStiCap/DSC-Input.git#d2d81b0c6608091196a0507495cadba12925916f",
@@ -196,7 +196,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.5",
+      "version": "3.0.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {
