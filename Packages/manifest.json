@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.dsc.core": "https://github.com/DeStiCap/DSC-Core.git#9285470f379f889932b39f4164b4646eb1f6597a",
-    "com.dsc.event": "https://github.com/DeStiCap/DSC-Event.git#99c1a35b13344b62a75f73da50821550f4394363",
+    "com.dsc.event": "https://github.com/DeStiCap/DSC-Event.git#f679295acbbed9cb21bb29eef9d511f05fa61549",
     "com.dsc.input": "https://github.com/DeStiCap/DSC-Input.git#d2d81b0c6608091196a0507495cadba12925916f",
     "com.unity.2d.pixel-perfect": "4.0.1",
     "com.unity.2d.sprite": "1.0.0",

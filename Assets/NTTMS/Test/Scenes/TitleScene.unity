@@ -16698,8 +16698,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1017633801}
-  - component: {fileID: 1017633802}
   - component: {fileID: 1017633803}
+  - component: {fileID: 1017633802}
   m_Layer: 5
   m_Name: InteractableUI
   m_TagString: Untagged
@@ -16778,7 +16778,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc8d9bb3f18a93478738cc433ecf232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sDescription: "Enable FadeBlack screen\n and call wait load scene at same time."
   m_sString: 
+  m_arrCondition: []
   m_hEvent:
     m_PersistentCalls:
       m_Calls:
