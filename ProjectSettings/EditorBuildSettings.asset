@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/NTTMS/Test/Scenes/TitleScene.unity
+    guid: 31be60a8ac10f7f42bfabfcc17a7e298
+  - enabled: 1
     path: Assets/NTTMS/Test/Scenes/Level1.unity
     guid: c764f66a0ac21994abab8671eabe9ec9
+  - enabled: 1
+    path: Assets/Example/Scenes/Cutscene_OP.unity
+    guid: 4a76874a55c62a24c8ef408d416a1b0a
+  - enabled: 1
+    path: Assets/Example/Scenes/Cutscene_ED.unity
+    guid: cfb2c2f13ba836643bb31ac893c25a9d
   m_configObjects: {}

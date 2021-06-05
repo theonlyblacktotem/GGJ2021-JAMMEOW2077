@@ -8,11 +8,11 @@
       "hash": "9285470f379f889932b39f4164b4646eb1f6597a"
     },
     "com.dsc.event": {
-      "version": "https://github.com/DeStiCap/DSC-Event.git#3c23bfa471f11ea85e9c758c65e0360e081f1614",
+      "version": "https://github.com/DeStiCap/DSC-Event.git#99c1a35b13344b62a75f73da50821550f4394363",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "3c23bfa471f11ea85e9c758c65e0360e081f1614"
+      "hash": "99c1a35b13344b62a75f73da50821550f4394363"
     },
     "com.dsc.input": {
       "version": "https://github.com/DeStiCap/DSC-Input.git#d2d81b0c6608091196a0507495cadba12925916f",
